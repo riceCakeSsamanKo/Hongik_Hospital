@@ -2,6 +2,8 @@ package project.hongik_hospital.domain;
 
 import javax.persistence.*;
 
+import java.time.LocalDateTime;
+
 import static javax.persistence.FetchType.*;
 
 @Entity
@@ -26,4 +28,6 @@ public class Reserve {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "hospital_id")
     private Hospital hospital;
+
+    private LocalDateTime date;
 }

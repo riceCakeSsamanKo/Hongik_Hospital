@@ -11,6 +11,8 @@ public class Doctor {
     @Column(name = "doctor_id")
     private Long id;
 
+    private int career;
+
     @OneToOne(fetch = LAZY)
     @JoinColumn(name = "hospital_id")
     private Hospital hospital;
