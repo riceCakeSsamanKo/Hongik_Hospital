@@ -1,17 +1,48 @@
 package project.hongik_hospital.domain;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+
+import javax.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static javax.persistence.CascadeType.*;
+import static javax.persistence.EnumType.*;
+import static lombok.AccessLevel.PROTECTED;
 
 @Entity
+@Getter
+@NoArgsConstructor(access = PROTECTED)
 public class Patient {
 
     @Id @GeneratedValue
     @Column(name = "patient_id")
     private Long id;
 
+    private String name;
     private int age;
-    private String sex;
+    @Enumerated(value = STRING)
+    private GenderType gender;
+
+    @OneToMany(mappedBy = "patient",cascade = ALL)
+    List<Reserve> reserves = new ArrayList<>();
+
+    // 생성자
+    public Patient(String name, int age, GenderType gender) {
+        this.name = name;
+        this.age = age;
+        this.gender = gender;
+    }
+
+    // setter
+    public void setAge(int age) {
+        this.age = age;
+    }
+    public void setSex(GenderType gender) {
+        this.gender = gender;
+    }
 }
