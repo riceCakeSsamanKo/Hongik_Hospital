@@ -42,18 +42,44 @@ public class Reserve {
     private LocalDateTime reserveDate;
     private int fee;
 
+    @Override
+    public String toString() {
+        return "Reserve{" +
+                "id=" + id +
+                ", patient=" + patient.getName() +
+                ", doctor=" + doctor.getName() +
+                ", department=" + department.getName() +
+                ", hospital=" + hospital.getName() +
+                ", reserveDate=" + reserveDate +
+                ", fee=" + fee +
+                ", reserveStatus=" + reserveStatus +
+                '}';
+    }
 
     @Enumerated(value = STRING)
     private ReserveStatus reserveStatus;
 
-    // 생성자
-    public Reserve(Patient patient, Doctor doctor, Department department, Hospital hospital, LocalDateTime reserveDate, ReserveStatus reserveStatus) {
-        this.patient = patient;
-        this.doctor = doctor;
-        this.department = department;
-        this.hospital = hospital;
-        this.reserveDate = reserveDate;
-        this.reserveStatus = reserveStatus;
+    // 생성 메서드
+    public static Reserve createReserve(Patient patient, Doctor doctor, LocalDateTime reserveDate) {
+        Reserve reserve = new Reserve();
+        reserve.setPatient(patient);
+        reserve.setDoctor(doctor);
+
+        if (doctor.getDepartment() == null) {
+            throw new IllegalStateException("오류! 의사의 소속 부서가 없습니다");
+        }
+        if (doctor.getDepartment().getHospital() == null) {
+            throw new IllegalStateException("오류! 의사의 소속 병원이 없습니다");
+        }
+
+        reserve.setDepartment(doctor.getDepartment());
+        reserve.setHospital(doctor.getDepartment().getHospital());
+
+        // fee는 reserveStatus가 COMPLETE인 경우에 책정 하기로 함 ㅇㅇ.
+        reserve.setReserveDate(reserveDate);
+        reserve.setReserveStatus(ReserveStatus.RESERVE);
+
+        return reserve;
     }
 
     // setter

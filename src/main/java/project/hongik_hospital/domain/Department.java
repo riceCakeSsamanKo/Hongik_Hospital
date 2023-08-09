@@ -19,6 +19,7 @@ import static lombok.AccessLevel.PROTECTED;
 public class Department {
 
     @Id @GeneratedValue
+    @Column(name = "department_id")
     private Long id;
 
     private String name;

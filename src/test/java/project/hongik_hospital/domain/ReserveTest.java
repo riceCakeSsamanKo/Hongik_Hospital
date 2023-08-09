@@ -1,22 +1,16 @@
 package project.hongik_hospital.domain;
 
-import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Commit;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
+import org.junit.jupiter.api.Test;
 
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.transaction.Transactional;
 
-import java.time.LocalDateTime;
-
-import static java.time.LocalDateTime.*;
-import static org.junit.jupiter.api.Assertions.*;
-import static project.hongik_hospital.domain.GenderType.*;
-import static project.hongik_hospital.domain.ReserveStatus.*;
+import static java.time.LocalDateTime.now;
+import static project.hongik_hospital.domain.GenderType.MALE;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
@@ -27,8 +21,8 @@ class ReserveTest {
     EntityManager em;
 
     @Test
-    @Commit
-    public void 예약() throws Exception {
+    public void createReserveTest() throws Exception {
+        // 정상 케이스
         Patient patient = new Patient("김환자", 30, MALE);
 
         Address hospitalAddress = new Address("서울", "홍대거리", "12345");
@@ -44,8 +38,16 @@ class ReserveTest {
 
         Hospital hospital = new Hospital("참조은병원", hospitalAddress, department);
 
-        Reserve reserve = new Reserve(patient, doctor1, department, hospital, now(), RESERVE);
-
+        Reserve reserve = Reserve.createReserve(patient, doctor2, now());
         em.persist(reserve);
+
+        // 오류 케이스
+        Doctor noHosDoc = new Doctor("노병원닥터",100);
+        try {
+            Reserve.createReserve(patient, noHosDoc, now());
+        } catch (IllegalStateException e) {
+            System.out.println("e = " + e);
+        }
+
     }
 }
