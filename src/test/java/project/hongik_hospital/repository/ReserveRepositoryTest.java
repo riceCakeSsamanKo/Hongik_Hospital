@@ -90,5 +90,15 @@ class ReserveRepositoryTest {
 
     @Test
     void findByStatus() {
+        List<Reserve> reserved = reserveRepository.findByStatus(RESERVE);
+        List<Reserve> canceled = reserveRepository.findByStatus(ReserveStatus.CANCEL);
+        List<Reserve> completed = reserveRepository.findByStatus(ReserveStatus.COMPLETE);
+
+        for (Reserve reserve : completed) {
+            System.out.println("reserve = " + reserve);
+        }
+        Assertions.assertThat(reserved.size()).isEqualTo(3);
+        Assertions.assertThat(canceled.size()).isEqualTo(0);
+        Assertions.assertThat(completed.size()).isEqualTo(0);
     }
 }
