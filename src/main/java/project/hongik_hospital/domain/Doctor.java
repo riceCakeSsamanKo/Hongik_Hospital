@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import static javax.persistence.CascadeType.*;
 import static javax.persistence.FetchType.*;
 import static lombok.AccessLevel.PROTECTED;
 
@@ -27,7 +28,10 @@ public class Doctor {
 
     private String name;
     private int career;
+
+    @OneToMany(mappedBy = "doctor", cascade = ALL)
     private List<TreatmentDate> treatmentDates = new ArrayList<>();
+
     /*// reserve에서 예약이 들어오는 경우 doctor의 treatmentDate에 해당하는 날짜가 비어있다면 컬렉션에 해당 날짜 추가
     @ElementCollection // 값 타입 컬렉션을 사용하기 위한 어노테이션
     // DB는 컬렉션을 같은 테이블(DOCTOR)에 저장할 수 없다. => @CollectionTable: 별도의 테이블 생성
