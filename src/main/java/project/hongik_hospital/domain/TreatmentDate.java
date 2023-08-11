@@ -12,7 +12,8 @@ import static javax.persistence.FetchType.*;
 @NoArgsConstructor
 public class TreatmentDate {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     @Column(name = "treatmentdate_id")
     private Long id;
 
