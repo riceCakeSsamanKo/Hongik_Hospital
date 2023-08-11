@@ -29,17 +29,9 @@ public class Doctor {
     private String name;
     private int career;
 
+    // 의사 진료 예약 시간
     @OneToMany(mappedBy = "doctor", cascade = ALL)
     private List<TreatmentDate> treatmentDates = new ArrayList<>();
-
-    /*// reserve에서 예약이 들어오는 경우 doctor의 treatmentDate에 해당하는 날짜가 비어있다면 컬렉션에 해당 날짜 추가
-    @ElementCollection // 값 타입 컬렉션을 사용하기 위한 어노테이션
-    // DB는 컬렉션을 같은 테이블(DOCTOR)에 저장할 수 없다. => @CollectionTable: 별도의 테이블 생성
-    @CollectionTable(name = "TREATMENT_DATE", // TREATMENT_DATE 테이블을 따로 생성함
-            joinColumns = @JoinColumn(name = "doctor_id")
-    )
-    private List<LocalDateTime> treatmentDate =new ArrayList<>();*/
-
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "department_id")
@@ -58,5 +50,17 @@ public class Doctor {
     }
     public void setDepartment(Department department) {
         this.department = department;
+    }
+
+    // 연관관계 편의 메서드
+    public void addTreatmentDate(TreatmentDate treatmentDate) {
+        treatmentDates.add(treatmentDate);
+        treatmentDate.setDoctor(this);
+    }
+
+    public void addTreatmentDate(int month, int date, int hour, int minute) {
+        TreatmentDate treatmentDate = new TreatmentDate(month, date, hour, minute);
+        treatmentDates.add(treatmentDate);
+        treatmentDate.setDoctor(this);
     }
 }

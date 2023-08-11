@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
+import project.hongik_hospital.repository.TreatmentDateRepository;
 
 import javax.persistence.*;
 
@@ -44,8 +46,7 @@ public class Reserve {
     private Hospital hospital;
 
     private LocalDateTime reserveDate;
-    @Embedded
-    private TreatmentDate treatmentDate;
+
     private int fee;
 
     @Enumerated(value = STRING)
@@ -57,26 +58,30 @@ public class Reserve {
     }
 
     // 생성 메서드
-    public static Reserve createReserve(Patient patient, Doctor doctor, LocalDateTime reserveDate) {
-        Reserve reserve = new Reserve();
-        reserve.setPatient(patient);
-        reserve.setDoctor(doctor);
+    public static Reserve createReserve(Patient patient, Doctor doctor, LocalDateTime reserveDate, TreatmentDate treatmentDate) {
 
+        // 예약 불가 조건
         if (doctor.getDepartment() == null) {
             throw new IllegalStateException("오류! 의사의 소속 부서가 없습니다");
         }
         if (doctor.getDepartment().getHospital() == null) {
             throw new IllegalStateException("오류! 의사의 소속 병원이 없습니다");
         }
+        for(TreatmentDate date : doctor.getTreatmentDates()){
+            // 의사의 treatmentDate 리스트에 이미 treamentDate에 해당하는 날짜가 존재한다면 예약 불가
+            date.compare(treatmentDate);
+        }
+        doctor.addTreatmentDate(treatmentDate); //해당 시간에 예약이 없으니 예약가능.
 
+        Reserve reserve = new Reserve();
+        reserve.setPatient(patient);
+        reserve.setDoctor(doctor);
         reserve.setDepartment(doctor.getDepartment());
         reserve.setHospital(doctor.getDepartment().getHospital());
-
-        // fee는 reserveStatus가 COMPLETE인 경우에 책정 하기로 함 ㅇㅇ.
         reserve.setReserveDate(reserveDate);
         reserve.setReserveStatus(RESERVE);
 
-        // 의사의 treatmentDate 리스트에 이미 treamentDate에 해당하는 날짜가 존재한다면 예약 불가 구현해야함
+        // fee는 reserveStatus가 COMPLETE인 경우에 책정 하기로 함 ㅇㅇ.
         return reserve;
     }
 
@@ -92,9 +97,6 @@ public class Reserve {
     }
     public void setReserveDate(LocalDateTime reserveDate) {
         this.reserveDate = reserveDate;
-    }
-    public void setTreatmentDate(TreatmentDate treatmentDate) {
-        this.treatmentDate = treatmentDate;
     }
     public void setReserveStatus(ReserveStatus reserveStatus) {
         this.reserveStatus = reserveStatus;
