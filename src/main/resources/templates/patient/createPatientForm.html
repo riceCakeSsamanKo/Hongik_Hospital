@@ -1,0 +1,72 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header"/>
+<style>
+    .fieldError {
+        border-color: #bd2130;
+    }
+</style>
+<body>
+<div class="container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+    <form role="form" action="/patient/new" th:object="${form}" method="post" onsubmit="return validateForm()">
+        <div class="form-group">
+            <label th:for="name">ID</label>
+            <input type="text" th:field="*{login_id}" class="form-control"
+                   placeholder="아이디를 입력하세요"
+                   th:class="${#fields.hasErrors('login_id')}? 'form-control fieldError' : 'form-control'">
+            <p th:if="${#fields.hasErrors('login_id')}" th:errors="*{login_id}">잘못된 아이디</p>
+        </div>
+        <div class="form-group">
+            <label th:for="name">Password</label>
+            <input type="text" th:field="*{login_pw}" class="form-control"
+                   placeholder="비밀번호를 입력하세요"
+                   th:class="${#fields.hasErrors('login_pw')}? 'form-control fieldError' : 'form-control'">
+            <p th:if="${#fields.hasErrors('login_pw')}" th:errors="*{login_pw}">잘못된 비밀번호</p>
+        </div>
+        <div class="form-group">
+            <label th:for="name">이름</label>
+            <input type="text" th:field="*{name}" class="form-control"
+                   placeholder="이름을 입력하세요"
+                   th:class="${#fields.hasErrors('name')}? 'form-control fieldError' : 'form-control'">
+            <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}">잘못된 이름</p>
+        </div>
+        <div class="form-group">
+            <label th:for="age">나이</label>
+            <input type="text" th:field="*{age}" class="form-control"
+                   placeholder="나이를 입력하세요">
+            <p th:if="${#fields.hasErrors('age')}" th:errors="*{age}">잘못된 나이</p>
+        </div>
+        <div class="form-group">
+            <label>성별</label>
+            <ul class="list-group">
+                <li class="list-group-item" th:classappend="${form.gender == 'MALE'} ? 'active' : ''">
+                    <input type="radio" th:field="*{gender}" value="MALE"> 남성
+                </li>
+                <li class="list-group-item" th:classappend="${form.gender == 'FEMALE'} ? 'active' : ''">
+                    <input type="radio" th:field="*{gender}" value="FEMALE"> 여성
+                </li>
+            </ul>
+        </div>
+        <button type="submit" class="btn btn-primary">제출</button>
+    </form>
+    <br/>
+    <div th:replace="fragments/footer :: footer"/>
+</div> <!-- /container -->
+<script>
+function validateForm() {
+    var ageField = document.querySelector('input[name="age"]');
+    var ageValue = ageField.value;
+
+    if (isNaN(ageValue) || ageValue === "") {
+        alert("나이는 숫자로 입력해주세요.");
+        ageField.classList.add('fieldError');
+        return false; // 폼 제출 중단
+    } else {
+        ageField.classList.remove('fieldError');
+        return true; // 폼 제출
+    }
+}
+</script>
+</body>
+</html>

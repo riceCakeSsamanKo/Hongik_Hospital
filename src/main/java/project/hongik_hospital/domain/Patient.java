@@ -28,6 +28,9 @@ public class Patient {
     @Enumerated(value = STRING)
     private GenderType gender;
 
+    @Embedded
+    private LogInInformation logIn;
+
     @OneToMany(mappedBy = "patient",cascade = ALL)
     List<Reserve> reserves = new ArrayList<>();
 
@@ -44,5 +47,8 @@ public class Patient {
     }
     public void setSex(GenderType gender) {
         this.gender = gender;
+    }
+    public void setLogIn(String id, String pw) {
+        this.logIn = new LogInInformation(id, pw);
     }
 }

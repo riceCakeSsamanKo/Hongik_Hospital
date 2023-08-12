@@ -1,21 +1,24 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-    <!--<head>부를 fragments/header.html의 th:fragment=header로 대치-->
-    <head th:replace="fragments/header :: header">  <!--jumbotron-narrow.css 사용-->
+    <head th:replace="fragments/header :: header">
         <title>Hongik Hospital</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     </head>
-    <!--대치 끝-->
     <body>
         <div class="container">
-            <!--<div>를 fragments/bodyHeader.html의 th:fragment=bodyHeader로 대치-->
             <div th:replace="fragments/bodyHeader :: bodyHeader" />
-            <!--대치 끝-->
-            <div class="jumbotron">  <!--jumbotrom-narrow.css의 .jumbotron 클래스 사용-->
+            <div class="jumbotron">
                 <h1>HONGIK HOSPITAL</h1>
+                <!-- 수정 시작 -->
+                <div class="d-flex justify-content-end">
+                    <p>
+                        <a href="/patient/login">로그인</a>
+                        <a href="/patient/new">회원 가입</a>
+                    </p>
+                </div>
+                <!-- 수정 끝 -->
                 <p class="lead">고객 기능</p>
                 <p>
-                    <a class="btn btn-lg btn-secondary" href="/patient/new">회원 가입</a>
                     <a class="btn btn-lg btn-secondary" href="/patient/information">고객 정보</a>
                     <a class="btn btn-lg btn-secondary" href="/patient/delete">회원 탈퇴</a>
                 </p>
@@ -29,9 +32,7 @@
                     <a class="btn btn-lg btn-info" href="/hospital">병원 정보</a>
                 </p>
             </div>
-            <!--<div>부를 fragments/footer.html th:fragment=footer로 대치-->
             <div th:replace="fragments/footer :: footer" />
-            <!--대치 끝-->
         </div> <!-- /container -->
     </body>
 </html>
