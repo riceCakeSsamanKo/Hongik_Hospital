@@ -30,7 +30,7 @@ public class DoctorServiceTest {
         doctorService.join(doc1);
         doctorService.join(doc2);
         doctorService.join(doc3);
-        
+
         //then
         Assertions.assertThrows(IllegalStateException.class, () -> doctorService.join(doc1));
         Assertions.assertThrows(IllegalStateException.class, () -> doctorService.join(doc2));
