@@ -45,17 +45,16 @@ public class Reserve {
     @JoinColumn(name = "hospital_id")
     private Hospital hospital;
 
+    @ManyToOne(fetch = LAZY, cascade = ALL)
+    @JoinColumn(name = "treatmentdate_id")
+    private TreatmentDate treatmentDate;
+
     private LocalDateTime reserveDate;
 
     private int fee;
 
     @Enumerated(value = STRING)
     private ReserveStatus reserveStatus;
-
-    public void cancel() {
-        setReserveStatus(CANCEL);
-        setFee(0);
-    }
 
     // 생성 메서드
     public static Reserve createReserve(Patient patient, Doctor doctor, LocalDateTime reserveDate, TreatmentDate treatmentDate) {
@@ -69,23 +68,27 @@ public class Reserve {
         }
         for(TreatmentDate date : doctor.getTreatmentDates()){
             // 의사의 treatmentDate 리스트에 이미 treamentDate에 해당하는 날짜가 존재한다면 예약 불가
-            date.compare(treatmentDate);
+            if (date.compare(treatmentDate)) {
+                throw new IllegalStateException("오류! 이미 예약된 시간입니다.");
+            }
         }
         doctor.addTreatmentDate(treatmentDate); //해당 시간에 예약이 없으니 예약가능.
 
         Reserve reserve = new Reserve();
+        reserve.setTreatmentDate(treatmentDate);
         reserve.setPatient(patient);
         reserve.setDoctor(doctor);
         reserve.setDepartment(doctor.getDepartment());
         reserve.setHospital(doctor.getDepartment().getHospital());
         reserve.setReserveDate(reserveDate);
         reserve.setReserveStatus(RESERVE);
-
+        reserve.setFee(0);
         // fee는 reserveStatus가 COMPLETE인 경우에 책정 하기로 함 ㅇㅇ.
         return reserve;
     }
 
     // setter
+
     public void setDoctor(Doctor doctor) {
         this.doctor = doctor;
     }
@@ -101,12 +104,27 @@ public class Reserve {
     public void setReserveStatus(ReserveStatus reserveStatus) {
         this.reserveStatus = reserveStatus;
     }
+    private void setTreatmentDate(TreatmentDate treatmentDate) {
+        this.treatmentDate = treatmentDate;
+    }
     public void setFee(int fee){this.fee = fee;}
     
     // 연관관계 편의 메서드
     public void setPatient(Patient patient) {
         this.patient = patient;
         patient.getReserves().add(this);
+    }
+
+    // 비즈니스 로직
+    public void cancel() {
+        setReserveStatus(CANCEL);
+        doctor.cancelTreatment(treatmentDate);
+    }
+
+    public void complete(int fee) {
+        setReserveStatus(COMPLETE);
+        setFee(fee);
+        doctor.cancelTreatment(treatmentDate);
     }
 
     @Override

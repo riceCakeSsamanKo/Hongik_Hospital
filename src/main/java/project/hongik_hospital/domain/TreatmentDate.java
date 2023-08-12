@@ -38,13 +38,14 @@ public class TreatmentDate {
     }
 
     //비교 메서드
-    public void compare(TreatmentDate treatmentDate) {
+    public boolean compare(TreatmentDate treatmentDate) {
         if (this.hour == treatmentDate.hour ||
                 this.date == treatmentDate.hour ||
                 this.hour == treatmentDate.hour ||
                 this.minute == treatmentDate.minute)
         {
-            throw new IllegalStateException("오류! 이미 예약된 시간입니다.");
+            return true;
         }
+        return false;
     }
 }

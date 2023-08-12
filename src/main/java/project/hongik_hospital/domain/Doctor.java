@@ -30,7 +30,7 @@ public class Doctor {
     private int career;
 
     // 의사 진료 예약 시간
-    @OneToMany(mappedBy = "doctor", cascade = ALL)
+    @OneToMany(mappedBy = "doctor", cascade = ALL, orphanRemoval = true)
     private List<TreatmentDate> treatmentDates = new ArrayList<>();
 
     @ManyToOne(fetch = LAZY)
@@ -48,7 +48,7 @@ public class Doctor {
     public void setCareer(int career) {
         this.career = career;
     }
-    public void setDepartment(Department department) {
+    protected void setDepartment(Department department) {
         this.department = department;
     }
 
@@ -62,5 +62,14 @@ public class Doctor {
         TreatmentDate treatmentDate = new TreatmentDate(month, date, hour, minute);
         treatmentDates.add(treatmentDate);
         treatmentDate.setDoctor(this);
+    }
+
+    // 비즈니스 로직
+    public void cancelTreatment(TreatmentDate treatmentDate) {
+        for (int i = 0; i < treatmentDates.size(); i++) {
+            if (treatmentDates.get(i).compare(treatmentDate)) {
+                treatmentDates.remove(i);
+            }
+        }
     }
 }
