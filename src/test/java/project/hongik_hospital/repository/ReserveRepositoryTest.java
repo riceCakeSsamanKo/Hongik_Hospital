@@ -24,7 +24,6 @@ import static project.hongik_hospital.domain.ReserveStatus.RESERVE;
 @SpringBootTest
 @RunWith(SpringRunner.class)
 @Transactional
-@Commit
 class ReserveRepositoryTest {
 
     @Autowired
