@@ -1,0 +1,22 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header">
+    <title>Patient Information</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<div class="container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader" />
+    <div class="jumbotron">
+        <h1>Patient Information</h1>
+        <p>
+            <p><strong th:text="'Name: '"></strong> <span th:text="${patient.name}"></span></p>
+            <p><strong th:text="'Age: '"></strong> <span th:text="${patient.age}"></span></p>
+            <p><strong th:text="'Gender: '"></strong> <span th:text="${patient.gender}"></span></p>
+        </p>
+        <a class="btn btn-lg btn-secondary" href="/patient/information/change">수정하기</a>
+    </div>
+    <div th:replace="fragments/footer :: footer" />
+</div> <!-- /container -->
+</body>
+</html>

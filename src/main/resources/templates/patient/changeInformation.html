@@ -1,0 +1,105 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header">
+    <title>Change Patient Information</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+<div class="container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+    <div class="jumbotron">
+        <h1>Change Patient Information</h1>
+        <form th:object="${form}" th:action="@{/patient/information/change}" method="post" onsubmit="return validateForm()">
+            <div class="form-group">
+                <label for="login_id">ID</label>
+                <input type="text" class="form-control" id="login_id" placeholder= "아이디를 입력하세요" th:field="*{login_id}" th:value="${patient.logIn.login_id}"/>
+                <small class="text-danger" th:if="${#fields.hasErrors('login_id')}" th:errors="*{login_id}">ID는 필수 입력값입니다</small>
+            </div>
+            <div class="form-group">
+                <label for="login_pw">Password</label>
+                <input type="text" class="form-control" id="login_pw" placeholder= "비밀번호를 입력하세요" th:field="*{login_pw}" th:value="${patient.logIn.login_pw}" />
+                <small class="text-danger" th:if="${#fields.hasErrors('login_pw')}" th:errors="*{login_pw}">Password는 필수 입력값입니다</small>
+            </div>
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" class="form-control" id="name" th:field="*{name}" placeholder= "이름을 입력하세요" th:value="${patient.name}" />
+                <small class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name은 필수 입력값입니다</small>
+            </div>
+            <div class="form-group">
+                <label for="age">Age</label>
+                <input type="number" class="form-control" id="age" placeholder= "나이를 입력하세요" th:field="*{age}" />
+                <small class="text-danger" th:if="${#fields.hasErrors('age')}" th:errors="*{age}">Age는 필수 입력값입니다</small>
+            </div>
+            <div class="form-group">
+                <label for="gender">Gender</label>
+                <select class="form-control" id="gender" th:field="*{gender}">
+                    <option value="MALE">Male</option>
+                    <option value="FEMALE">Female</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">수정</button>
+        </form>
+    </div>
+    <div th:replace="fragments/footer :: footer"/>
+</div> <!-- /container -->
+
+<script>
+function validateForm() {
+    var idField = document.querySelector('input[name="login_id"]');
+    var pwField = document.querySelector('input[name="login_pw"]');
+    var nameField = document.querySelector('input[name="name"]');
+    var ageField = document.querySelector('input[name="age"]');
+    var genderField = document.querySelector('select[name="gender"]');
+
+    var idValue = idField.value;
+    var pwValue = pwField.value;
+    var nameValue = nameField.value;
+    var ageValue = ageField.value;
+    var genderValue = genderField.value;
+
+    if (idValue === "") {
+        alert("아이디를 입력해주세요.");
+        idField.classList.add('fieldError');
+        return false;
+    } else {
+        idField.classList.remove('fieldError');
+    }
+
+    if (pwValue === "") {
+        alert("비밀번호를 입력해주세요.");
+        pwField.classList.add('fieldError');
+        return false;
+    } else {
+        pwField.classList.remove('fieldError');
+    }
+
+    if (nameValue === "") {
+        alert("이름을 입력해주세요.");
+        nameField.classList.add('fieldError');
+        return false;
+    } else {
+        nameField.classList.remove('fieldError');
+    }
+
+    if (ageValue === "") {
+        alert("나이를 입력해주세요.");
+        ageField.classList.add('fieldError');
+        return false;
+    } else {
+        ageField.classList.remove('fieldError');
+    }
+
+    if (genderValue === "") {
+        alert("성별을 선택해주세요.");
+        genderField.classList.add('fieldError');
+        return false;
+    } else {
+        genderField.classList.remove('fieldError');
+    }
+
+    return true; // 모든 검사를 통과하면 제출 가능
+}
+</script>
+
+</body>
+</html>
