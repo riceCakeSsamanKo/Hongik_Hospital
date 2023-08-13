@@ -1,0 +1,38 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="fragments/header :: header">
+        <title>Hongik Hospital</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    </head>
+    <body>
+        <div class="container">
+            <div th:replace="fragments/bodyHeader :: bodyHeader" />
+            <div class="jumbotron">
+                <h1>HONGIK HOSPITAL</h1>
+                <!-- 수정 시작 -->
+                <div class="d-flex justify-content-end">
+                    <p>
+                        <a href="/patient/login">로그인</a>
+                        <a href="/patient/new">회원 가입</a>
+                    </p>
+                </div>
+                <!-- 수정 끝 -->
+                <p class="lead">고객 기능</p>
+                <p>
+                    <a class="btn btn-lg btn-secondary" href="/patient/information">고객 정보</a>
+                    <a class="btn btn-lg btn-secondary" href="/patient/delete">회원 탈퇴</a>
+                </p>
+                <p class="lead">예약 접수 기능</p>
+                <p>
+                    <a class="btn btn-lg btn-dark" href="/reserve/new">예약 하기</a>
+                    <a class="btn btn-lg btn-dark" href="/reserve/history">예약 내역</a>
+                </p>
+                <p class="lead">병원 기능</p>
+                <p>
+                    <a class="btn btn-lg btn-info" href="/hospital">병원 정보</a>
+                </p>
+            </div>
+            <div th:replace="fragments/footer :: footer" />
+        </div> <!-- /container -->
+    </body>
+</html>

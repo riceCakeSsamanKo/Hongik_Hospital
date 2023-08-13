@@ -59,9 +59,13 @@ class ReserveRepositoryTest {
         Hospital hospital1 = new Hospital("참조은병원", hospitalAddress1, department1, department2);
         Hospital hospital2 = new Hospital("짱조은병원", hospitalAddress2, department3);
 
-        Reserve reserve1 = Reserve.createReserve(patient2, doctor1, now());
-        Reserve reserve2 = Reserve.createReserve(patient1, doctor3, now());
-        Reserve reserve3 = Reserve.createReserve(patient2, doctor4, now());
+        TreatmentDate treatmentDate1 = new TreatmentDate(12,1,14,12);
+        TreatmentDate treatmentDate2 = new TreatmentDate(1,23,14,10);
+        TreatmentDate treatmentDate3 = new TreatmentDate(6,7,10,30);
+
+        Reserve reserve1 = Reserve.createReserve(patient2, doctor1, now(),treatmentDate1);
+        Reserve reserve2 = Reserve.createReserve(patient1, doctor3, now(),treatmentDate2);
+        Reserve reserve3 = Reserve.createReserve(patient2, doctor4, now(),treatmentDate3);
 
         reserveRepository.save(reserve1);
         reserveRepository.save(reserve2);
