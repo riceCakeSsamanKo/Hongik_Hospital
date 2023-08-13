@@ -25,14 +25,19 @@ public class PatientService {
     public Patient findPatient(Long patientId) {
         return patientRepository.findOne(patientId);
     }
+    @Transactional(readOnly = true)
+    public Patient findPatient(String id, String pw) {
+        return patientRepository.findByLogInfo(id, pw);
+    }
 
     @Transactional(readOnly = true)
     public List<Patient> findPatients() {
         return patientRepository.findAll();
     }
-
     @Transactional(readOnly = true)
     public List<Patient> findPatients(String name) {
         return patientRepository.findByName(name);
     }
+
+
 }

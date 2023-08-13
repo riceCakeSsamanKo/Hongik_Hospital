@@ -12,8 +12,13 @@
                 <!-- 수정 시작 -->
                 <div class="d-flex justify-content-end">
                     <p>
-                        <a href="/patient/login">로그인</a>
-                        <a href="/patient/new">회원 가입</a>
+                        <span th:if="${loggedIn}">
+                            <a href="/patient/logout">로그아웃</a>
+                        </span>
+                        <span th:unless="${loggedIn}">
+                            <a href="/patient/login">로그인</a>
+                            <a href="/patient/new">회원 가입</a>
+                        </span>
                     </p>
                 </div>
                 <!-- 수정 끝 -->

@@ -31,4 +31,13 @@ public class PatientRepository {
                 .setParameter("name", name)
                 .getResultList();
     }
+
+    public Patient findByLogInfo(String id, String pw) {
+        return em.createQuery("select p from Patient p " +
+                        "where p.logIn.login_id = :id " +
+                        "and p.logIn.login_pw = :pw",Patient.class)
+                .setParameter("id", id)
+                .setParameter("pw", pw)
+                .getSingleResult();
+    }
 }

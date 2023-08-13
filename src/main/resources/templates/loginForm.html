@@ -1,0 +1,40 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header"/>
+<style>
+    .fieldError {
+        border-color: #bd2130;
+    }
+</style>
+<body>
+<div class="container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+    <form role="form" action="/patient/login" th:object="${form}" method="post" onsubmit="return validateForm()">
+        <div class="form-group">
+            <label th:for="name">ID</label>
+            <input type="text" th:field="*{login_id}" class="form-control"
+                   placeholder="아이디를 입력하세요"
+                   th:class="${#fields.hasErrors('login_id')}? 'form-control fieldError' : 'form-control'">
+            <p th:if="${#fields.hasErrors('login_id')}" th:errors="*{login_id}">잘못된 아이디</p>
+        </div>
+        <div class="form-group">
+            <label th:for="name">Password</label>
+            <input type="password" th:field="*{login_pw}" class="form-control"
+                   placeholder="비밀번호를 입력하세요"
+                   th:class="${#fields.hasErrors('login_pw')}? 'form-control fieldError' : 'form-control'">
+            <p th:if="${#fields.hasErrors('login_pw')}" th:errors="*{login_pw}">잘못된 비밀번호</p>
+        </div>
+        <button type="submit" class="btn btn-primary">로그인</button>
+    </form>
+    <br/>
+    <div th:replace="fragments/footer :: footer"/>
+</div> <!-- /container -->
+<script>
+function validateForm() {
+    // Validation logic
+    // ...
+    return true;
+}
+</script>
+</body>
+</html>
