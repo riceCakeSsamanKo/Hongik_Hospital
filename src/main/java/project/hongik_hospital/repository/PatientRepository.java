@@ -5,8 +5,10 @@ import org.springframework.stereotype.Repository;
 import project.hongik_hospital.domain.Patient;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class PatientRepository {
@@ -15,6 +17,10 @@ public class PatientRepository {
 
     public void save(Patient patient) {
         em.persist(patient);
+    }
+
+    public void remove(Patient patient) {
+        em.remove(patient);
     }
 
     public Patient findOne(Long patientId) {
@@ -32,12 +38,18 @@ public class PatientRepository {
                 .getResultList();
     }
 
-    public Patient findByLogInfo(String id, String pw) {
-        return em.createQuery("select p from Patient p " +
-                        "where p.logIn.login_id = :id " +
-                        "and p.logIn.login_pw = :pw",Patient.class)
-                .setParameter("id", id)
-                .setParameter("pw", pw)
-                .getSingleResult();
+    public Optional<Patient> findByLogInfo(String id, String pw) {
+        try {
+            Patient result = em.createQuery("select p from Patient p " +
+                            "where p.logIn.login_id = :id " +
+                            "and p.logIn.login_pw = :pw", Patient.class)
+                    .setParameter("id", id)
+                    .setParameter("pw", pw)
+                    .getSingleResult();
+
+            return Optional.ofNullable(result);
+        } catch (NoResultException e) {
+            return Optional.empty();
+        }
     }
 }

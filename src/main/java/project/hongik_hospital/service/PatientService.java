@@ -8,6 +8,7 @@ import project.hongik_hospital.domain.Patient;
 import project.hongik_hospital.repository.PatientRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -26,7 +27,7 @@ public class PatientService {
         return patientRepository.findOne(patientId);
     }
     @Transactional(readOnly = true)
-    public Patient findPatient(String id, String pw) {
+    public Optional<Patient> findPatient(String id, String pw) {
         return patientRepository.findByLogInfo(id, pw);
     }
 
@@ -39,5 +40,25 @@ public class PatientService {
         return patientRepository.findByName(name);
     }
 
+    public boolean removePatient(Patient patient) {
+        try {
+            patientRepository.remove(patient);
+        } catch (Exception e) {
+            System.out.println("e = " + e);
+            return false;
+        }
+        return true;
+    }
+    public boolean removePatient(String id, String pw) {
+        Optional<Patient> findPatient = patientRepository.findByLogInfo(id, pw);
+        Patient patient = findPatient.get();
+        try {
+            patientRepository.remove(patient);
+        } catch (Exception e) {
+            System.out.println("e = " + e);
+            return false;
+        }
+        return true;
+    }
 
 }

@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +16,8 @@ import project.hongik_hospital.service.PatientService;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+
+import java.util.Optional;
 
 import static java.lang.Integer.valueOf;
 
@@ -58,13 +61,16 @@ public class PatientController {
     @PostMapping("/patient/login")
     public String login(@Valid PatientForm form, BindingResult result, HttpSession session, Model model) {
         // Check if the login credentials are valid
-        Patient patient = patientService.findPatient(form.getLogin_id(), form.getLogin_pw());
+        Optional<Patient> optioanlPatient = patientService.findPatient(form.getLogin_id(), form.getLogin_pw());
 
-        if (patient == null) {
+        if (optioanlPatient.isEmpty()) {
             result.rejectValue("login_id", "invalid", "Invalid login credentials");
+            model.addAttribute("form", new PatientForm());
+            model.addAttribute("isSignInFail", true);
             return "loginForm";
         }
 
+        Patient patient = optioanlPatient.get();
         // Set the 'loggedIn' attribute to true and store the patient's information
         model.addAttribute("loggedIn", true);
         model.addAttribute("patient", patient);
@@ -112,7 +118,7 @@ public class PatientController {
     }
 
     @PostMapping("/patient/information/change")
-    public String updateInfo(@Valid PatientForm form, HttpSession session,Model model) {
+    public String updateInfo(@Valid PatientForm form, HttpSession session, Model model) {
 
         // form으로 새롭게 가져온 데이터
         String loginId = form.getLogin_id();
@@ -124,12 +130,12 @@ public class PatientController {
         Patient loggedInUser = (Patient) session.getAttribute("loggedInUser");
 
         if (loginId != null && loginPw != null) {
-            loggedInUser.setLogIn(loginId,loginPw);
+            loggedInUser.setLogIn(loginId, loginPw);
         } else if (loginId != null && loginPw == null) {
-            loggedInUser.setLogIn(loginId,loggedInUser.getLogIn().getLogin_pw());
+            loggedInUser.setLogIn(loginId, loggedInUser.getLogIn().getLogin_pw());
         } else if (loginId == null && loginPw != null) {
-            loggedInUser.setLogIn(loggedInUser.getLogIn().getLogin_pw(),loginPw);
-        } else{
+            loggedInUser.setLogIn(loggedInUser.getLogIn().getLogin_pw(), loginPw);
+        } else {
             // 변경 안함
         }
 
@@ -143,5 +149,8 @@ public class PatientController {
 
         return "redirect:/";
     }
+
+//    @DeleteMapping("/patient/delete")
+//    public String delete(Mod)
 }
 
