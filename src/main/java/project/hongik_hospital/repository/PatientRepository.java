@@ -2,6 +2,7 @@ package project.hongik_hospital.repository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import project.hongik_hospital.domain.Patient;
 
 import javax.persistence.EntityManager;

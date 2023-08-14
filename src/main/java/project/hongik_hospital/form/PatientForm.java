@@ -13,6 +13,8 @@ import static javax.persistence.EnumType.STRING;
 @Setter
 public class PatientForm {
 
+    private Long patientId;
+
     @NotEmpty(message = "아이디는 필수입니다")
     private String login_id;
 

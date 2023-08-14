@@ -53,4 +53,14 @@ class PatientServiceTest {
         assertEquals(bool3, false);
         assertEquals(patientService.findPatients("patient").size(),0);
     }
+    @Test
+    public void dirtyCheck() throws Exception{
+        //given
+        Patient patient = patientService.findPatient(1L);
+
+        //when
+        patient.setAge(12314124);
+        //then
+
+    }
 }

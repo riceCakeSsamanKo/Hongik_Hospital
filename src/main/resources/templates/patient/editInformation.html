@@ -9,7 +9,7 @@
     <div th:replace="fragments/bodyHeader :: bodyHeader"/>
     <div class="jumbotron">
         <h1>Change Patient Information</h1>
-        <form th:object="${form}" th:action="@{/patient/information/change}" method="post" onsubmit="return validateForm()">
+        <form th:object="${form}" th:action="@{/patient/{id}/edit (id=${form.patientId})}" method="post" onsubmit="return validateForm()">
             <div class="form-group">
                 <label for="login_id">ID</label>
                 <input type="text" class="form-control" id="login_id" placeholder= "아이디를 입력하세요" th:field="*{login_id}" th:value="${patient.logIn.login_id}"/>

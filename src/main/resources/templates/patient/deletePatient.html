@@ -1,0 +1,23 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header">
+    <title>Hongik Hospital - 회원 탈퇴</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+    <div class="container">
+        <div th:replace="fragments/bodyHeader :: bodyHeader" />
+        <div class="jumbotron">
+            <h1>HONGIK HOSPITAL</h1>
+            <section class="content">
+                <h2>정말로 탈퇴하시겠습니까?</h2>
+                <p>회원 탈퇴를 하시려면 아래 버튼을 클릭하세요.</p>
+                <form action="/patient/delete" method="post">
+                    <button type="submit" class="btn btn-danger">회원 탈퇴</button>
+                </form>
+            </section>
+        </div>
+        <div th:replace="fragments/footer :: footer" />
+    </div> <!-- /container -->
+</body>
+</html>

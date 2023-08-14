@@ -54,4 +54,12 @@ public class Patient {
     public void setLogIn(String id, String pw) {
         this.logIn = new LogInInformation(id, pw);
     }
+
+    // 비즈니스 로직
+    public void update(String loginId, String loginPw, String name, int age, GenderType gender) {
+        setLogIn(loginId, loginPw);
+        setName(name);
+        setAge(age);
+        setSex(gender);
+    }
 }
