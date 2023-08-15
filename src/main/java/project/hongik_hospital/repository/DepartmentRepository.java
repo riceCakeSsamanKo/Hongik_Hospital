@@ -22,12 +22,16 @@ public class DepartmentRepository {
     }
 
     public List<Department> findAll() {
-        return em.createQuery("select d from Department d",Department.class)
+        return em.createQuery("select d from Department d " +
+                        "join fetch d.hospital" ,Department.class)
                 .getResultList();
     }
 
     public List<Department> findByName(String name) {
-        return em.createQuery("select d from Department d where d.name = :name", Department.class)
+        return em.createQuery("select d from Department d " +
+                        "join fetch d.hospital " +
+                        "where d.name = :name",
+                        Department.class)
                 .setParameter("name", name)
                 .getResultList();
     }

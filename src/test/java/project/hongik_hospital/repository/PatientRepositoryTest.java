@@ -33,6 +33,11 @@ class PatientRepositoryTest {
     }
 
     @Test
+    void find() {
+        List<Patient> patient = patientRepository.findByName("환자1");
+    }
+
+    @Test
     void findByLogInfo() {
         Optional<Patient> byLogInfoOptional = patientRepository.findByLogInfo("id", "pw");
         Patient byLogInfo = byLogInfoOptional.get();

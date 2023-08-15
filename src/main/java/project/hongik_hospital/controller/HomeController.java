@@ -17,6 +17,8 @@ public class HomeController {
     public String home(Model model, HttpSession session) {
         boolean loggedIn = session.getAttribute("loggedInUser") != null;
         model.addAttribute("loggedIn", loggedIn);
+
+        log.info("home page");
         return "home";
     }
 }

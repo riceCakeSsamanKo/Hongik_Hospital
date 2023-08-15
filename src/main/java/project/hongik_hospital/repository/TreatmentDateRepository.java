@@ -23,12 +23,14 @@ public class TreatmentDateRepository {
     }
 
     public List<TreatmentDate> findAll() {
-        return em.createQuery("select t from TreatmentDate t",TreatmentDate.class)
+        return em.createQuery("select t from TreatmentDate t " +
+                        "join fetch t.doctor d",TreatmentDate.class)
                 .getResultList();
     }
 
     public List<TreatmentDate> findByTime(int month, int date, int hour, int minute) {
         return em.createQuery("select t from TreatmentDate t " +
+                                "join fetch t.doctor d " +
                                 "where t.month = :month " +
                                 "and t.date = :date " +
                                 "and t.hour=:hour " +

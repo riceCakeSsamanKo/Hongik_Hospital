@@ -1,61 +1,48 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/header :: header">
-    <title>Reservation</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <script th:src="@{/js/jquery.min.js}"></script> <!-- Include jQuery -->
-    <script>
-        $(document).ready(function () {
-            // 이벤트 리스너를 등록하여 부서 선택 시 의사 목록을 업데이트합니다.
-            $("#departmentSelect").change(function () {
-                var selectedDepartment = $(this).val();
-                // TODO: 서버로 선택된 부서에 대한 의사 목록을 요청하고 업데이트합니다.
-                // $.get("/getDoctors?department=" + selectedDepartment, function (data) {
-                //     // 의사 목록 업데이트 로직
-                // });
-            });
-
-            // 이벤트 리스너를 등록하여 의사 선택 시 시간 목록을 업데이트합니다.
-            $("#doctorSelect").change(function () {
-                var selectedDoctor = $(this).val();
-                // TODO: 서버로 선택된 의사에 대한 시간 목록을 요청하고 업데이트합니다.
-                // $.get("/getDoctorTimes?doctor=" + selectedDoctor, function (data) {
-                //     // 시간 목록 업데이트 로직
-                // });
-            });
-        });
-    </script>
-</head>
+<head th:replace="fragments/header :: header"/>
 <body>
 <div class="container">
     <div th:replace="fragments/bodyHeader :: bodyHeader"/>
-    <form role="form" action="/reserve/new" th:object="${form}" method="post" onsubmit="return validateForm()">
-        <div class="jumbotron">
-            <h1>Reservation</h1>
-            <p>
-                <select id="departmentSelect">
-                    <!-- TODO: 백엔드에서 가져온 진료과 목록을 동적으로 생성 -->
-                    <option value="department1">Department 1</option>
-                    <option value="department2">Department 2</option>
-                    <!-- ... -->
-                </select>
-                <select id="doctorSelect">
-                    <!-- TODO: 선택된 부서에 따른 의사 목록을 동적으로 생성 -->
-                    <option value="doctor1">Doctor 1</option>
-                    <option value="doctor2">Doctor 2</option>
-                    <!-- ... -->
-                </select>
-                <select id="timeSelect">
-                    <!-- TODO: 선택된 의사에 따른 시간 목록을 동적으로 생성 -->
-                    <option value="9:00">9:00 AM</option>
-                    <option value="9:30">9:30 AM</option>
-                    <!-- ... -->
-                </select>
-            </p>
-            <a class="btn btn-primary" href="#" role="button">예약하기</a>
+    <h1>예약 신청</h1>
+    <!--/reserve/department/doctor의 PostMapping에 form 데이터가 전달됨-->
+    <form th:action="@{/reserve/department/doctor}" th:object="${form}" method="post">
+
+        <div class="form-group">
+            <label for="doctor">의사:</label>
+            <select class="form-control" id="doctor" th:field="*{doctorId}">
+                <option th:each="doc : ${doctors}" th:value="${doc.id}" th:text="${doc.name}"></option>
+            </select>
         </div>
+
+        <div class="form-group">
+            <label for="month">월:</label>
+            <select class="form-control" id="month" th:field="*{month}">
+                <option th:each="m : ${#numbers.sequence(1, 12)}" th:value="${m}" th:text="${m}"></option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="date">일:</label>
+            <select class="form-control" id="date" th:field="*{date}">
+                <option th:each="d : ${#numbers.sequence(1, 31)}" th:value="${d}"
+                        th:text="${d}"></option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="hour">시간:</label>
+            <select class="form-control" id="hour" th:field="*{hour}">
+                <option th:each="h : ${#numbers.sequence(9, 17)}" th:value="${h}" th:text="${h}"></option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="minute">분:</label>
+            <select class="form-control" id="minute" th:field="*{minute}">
+                <option value="00">00</option>
+                <option value="30">30</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">예약 신청</button>
     </form>
-    <div th:replace="fragments/footer :: footer"/>
-</div> <!-- /container -->
+</div>
 </body>
 </html>

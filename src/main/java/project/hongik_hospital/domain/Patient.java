@@ -25,6 +25,7 @@ public class Patient {
 
     private String name;
     private int age;
+
     @Enumerated(value = STRING)
     private GenderType gender;
 

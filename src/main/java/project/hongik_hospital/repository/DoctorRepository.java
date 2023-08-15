@@ -23,12 +23,15 @@ public class DoctorRepository {
     }
 
     public List<Doctor> findAll() {
-        return em.createQuery("select d from Doctor d",Doctor.class)
+        return em.createQuery("select d from Doctor d " +
+                        "join fetch d.department dp",Doctor.class)
                 .getResultList();
     }
 
     public List<Doctor> findByName(String name) {
-        return em.createQuery("select d from Doctor d where d.name = :name", Doctor.class)
+        return em.createQuery("select d from Doctor d " +
+                        "join fetch d.department " +
+                        "where d.name = :name", Doctor.class)
                 .setParameter("name", name)
                 .getResultList();
     }

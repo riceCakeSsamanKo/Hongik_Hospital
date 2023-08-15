@@ -22,16 +22,19 @@ public class TreatmentDate {
     private int hour;
     private int minute;
 
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "doctor_id")
+    private Doctor doctor;
+
     public TreatmentDate(int month, int date, int hour, int minute) {
         this.month = month;
         this.date = date;
         this.hour = hour;
         this.minute = minute;
     }
-
-    @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "doctor_id")
-    private Doctor doctor;
+    static public TreatmentDate createTreatmentDate(int month, int date, int hour, int minute) {
+        return new TreatmentDate(month, date, hour, minute);
+    }
 
     public void setDoctor(Doctor doctor) {
         this.doctor = doctor;
