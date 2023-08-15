@@ -41,9 +41,9 @@ public class InitDB {
 
             Doctor doctor1 = new Doctor("정형외과 닥터1", 10);
             Doctor doctor2 = new Doctor("정형외과 닥터2", 10);
-            Doctor doctor3 = new Doctor("성형외과 닥터3", 10);
-            Doctor doctor4 = new Doctor("성형외과 닥터4", 10);
-            Doctor doctor5 = new Doctor("외과 닥터5", 10);
+            Doctor doctor3 = new Doctor("성형외과 닥터1", 10);
+            Doctor doctor4 = new Doctor("성형외과 닥터2", 10);
+            Doctor doctor5 = new Doctor("외과 닥터1", 10);
 
             Department dp1 = new Department("정형외과", "031-1111-1111");
             dp1.addDoctor(doctor1);
