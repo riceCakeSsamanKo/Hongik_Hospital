@@ -82,4 +82,6 @@ public class ReserveController {
         log.info("POST: select doctor and treatmentTime");
         return "redirect:/";
     }
+
+    //의사가 예약하려는 시간에 이미 예약이 차 있다면 예약 불가 떠야 함
 }
