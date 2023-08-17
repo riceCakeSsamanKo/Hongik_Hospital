@@ -3,9 +3,12 @@ package project.hongik_hospital.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import project.hongik_hospital.domain.Doctor;
 import project.hongik_hospital.domain.Reserve;
 import project.hongik_hospital.domain.ReserveStatus;
+import project.hongik_hospital.repository.DoctorRepository;
 import project.hongik_hospital.repository.ReserveRepository;
+import project.hongik_hospital.repository.TreatmentDateRepository;
 
 
 import java.util.List;
@@ -16,8 +19,9 @@ import java.util.List;
 public class ReserveService {
 
     private final ReserveRepository reserveRepository;
+    private final TreatmentDateRepository treatmentDateRepository;
 
-    public void makeReserve(Reserve reserve) {
+    public void saveReserve(Reserve reserve) {
         reserveRepository.save(reserve);
     }
 
@@ -39,7 +43,9 @@ public class ReserveService {
     }
 
     public void cancel(Long reserveId) {
-        reserveRepository.findOne(reserveId).cancel();
+        Reserve reserve = reserveRepository.findOne(reserveId);
+        reserve.cancel();
+        treatmentDateRepository.remove(reserve.getTreatmentDate().getId());
     }
 
     public void complete(Long reserveId,int fee) {

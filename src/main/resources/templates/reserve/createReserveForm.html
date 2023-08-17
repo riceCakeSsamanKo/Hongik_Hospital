@@ -43,6 +43,7 @@
                 <option value="30">30</option>
             </select>
         </div>
+        <p th:if="${isAlreadyReserved}" class="text-danger">이미 예약된 시간입니다.</p>
         <button type="submit" class="btn btn-primary">예약 신청</button>
     </form>
 </div>

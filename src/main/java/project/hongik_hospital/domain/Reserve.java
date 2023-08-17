@@ -118,6 +118,9 @@ public class Reserve {
 
     // 비즈니스 로직
     public void cancel() {
+        if (reserveStatus == COMPLETE) {
+            throw new IllegalStateException("이미 완료된 진료는 취소가 불가합니다.");
+        }
         setReserveStatus(CANCEL);
         doctor.cancelTreatment(treatmentDate);
     }

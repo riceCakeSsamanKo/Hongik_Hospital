@@ -68,7 +68,7 @@ public class Doctor {
     public void cancelTreatment(TreatmentDate treatmentDate) {
         for (int i = 0; i < treatmentDates.size(); i++) {
             if (treatmentDates.get(i).compare(treatmentDate)) {
-                treatmentDates.remove(i);
+                treatmentDates.get(i).setDoctor(null);
             }
         }
     }

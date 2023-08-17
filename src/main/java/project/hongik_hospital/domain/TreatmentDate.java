@@ -42,9 +42,9 @@ public class TreatmentDate {
 
     //비교 메서드
     public boolean compare(TreatmentDate treatmentDate) {
-        if (this.hour == treatmentDate.hour ||
-                this.date == treatmentDate.hour ||
-                this.hour == treatmentDate.hour ||
+        if (this.hour == treatmentDate.hour &&
+                this.date == treatmentDate.hour &&
+                this.hour == treatmentDate.hour &&
                 this.minute == treatmentDate.minute)
         {
             return true;

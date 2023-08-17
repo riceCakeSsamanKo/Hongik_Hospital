@@ -50,4 +50,9 @@ public class TreatmentDateRepository {
                 .setParameter("doctor", doctor)
                 .getResultList();
     }
+
+    public void remove(Long treatmentDateId) {
+        em.createQuery("DELETE FROM TreatmentDate td WHERE td.id = :id")
+                .setParameter("id", treatmentDateId);
+    }
 }

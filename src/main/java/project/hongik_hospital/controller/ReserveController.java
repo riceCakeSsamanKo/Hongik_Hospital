@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import project.hongik_hospital.domain.*;
 import project.hongik_hospital.form.PatientForm;
@@ -87,7 +88,7 @@ public class ReserveController {
 
         //의사가 예약하려는 시간에 이미 예약이 차 있다면 예약 불가 창이 떠야 함
         Reserve reserve = Reserve.createReserve(patient, doctor, LocalDateTime.now(), treatmentDate);
-        reserveService.makeReserve(reserve);
+        reserveService.saveReserve(reserve);
 
 
         log.info("POST: select doctor and treatmentTime");
@@ -98,6 +99,8 @@ public class ReserveController {
     public String getReserveHistory(@ModelAttribute("form") ReserveForm form, Model model, HttpSession session) {
         Patient loggedInUser = (Patient) session.getAttribute("loggedInUser");
         if (loggedInUser == null) {
+            model.addAttribute("form", new PatientForm());
+            model.addAttribute("needToSignIn", true);
             return "loginForm";
         }
         Patient patient = patientService.findPatient(loggedInUser.getId());
@@ -112,9 +115,16 @@ public class ReserveController {
             }
         }
 
-
         model.addAttribute("reserves", reserveDtos);
 
+        log.info("reserve history");
+
         return "reserve/reserveHistory";
+    }
+
+    @PostMapping("/reserve/history/{reserveId}/cancel")
+    public String cancelReserve(@PathVariable("reserveId") Long reserveId) {
+        reserveService.cancel(reserveId);
+        return "redirect:/reserve/history";
     }
 }
