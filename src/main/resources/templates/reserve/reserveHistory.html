@@ -1,0 +1,64 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header"/>
+<body>
+<div class="container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+    <div>
+        <div>
+            <form th:object="${form}" class="form-inline">
+                <div class="form-group mx-sm-1 mb-2">
+                    <select th:field="*{status}" class="form-control">
+                        <option value="">예약상태</option>
+                        <option th:each=
+                                        "status : ${T(project.hongik_hospital.domain.ReserveStatus).values()}"
+                                th:value="${status}"
+                                th:text="${status}">option
+                        </option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary mb-2">검색</button>
+            </form>
+        </div>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>회원명</th>
+                <th>진료과</th>
+                <th>담당 의사명</th>
+                <th>예약일</th>
+                <th>진료일</th>
+                <th>예약 상태</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="reserve : ${reserves}">
+                <td th:text="${reserve.patient.name}"></td>
+                <td th:text="${reserve.department.name}"></td>
+                <td th:text="${reserve.doctor.name}"></td>
+                <td th:text="${reserve.reserveDate}"></td>
+                <td th:text="${reserve.treatmentDate}"></td>
+                <td th:text="${reserve.reserveStatus}"></td>
+                <td>
+                    <a th:if="${reserve.reserveStatus.name() == 'RESERVE'}" href="#"
+                       th:href="'javascript:cancel('+${reserve.id}+')'"
+                       class="btn btn-danger">CANCEL</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div th:replace="fragments/footer :: footer"/>
+</div> <!-- /container -->
+</body>
+<script>  <!--자바 스크립트-->
+    function cancel(id) {
+        var form = document.createElement("form");
+        form.setAttribute("method", "post");
+        form.setAttribute("action", "reserve/history/" + id + "/cancel");
+        document.body.appendChild(form);
+        form.submit();
+    }
+</script>
+</html>

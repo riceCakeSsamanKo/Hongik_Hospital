@@ -100,7 +100,9 @@ public class PatientController {
         // 로그인한 회원 조회
         Patient loggedInUser = (Patient) session.getAttribute("loggedInUser");
         if (loggedInUser == null) {
-            return "redirect:/";
+            model.addAttribute("form", new PatientForm());
+            model.addAttribute("needToSignIn", true);
+            return "loginForm";
         }
 
         // 로그인한 회원의 id로 회원 엔티티 조회(그냥 loggedInUser를 view에 넘기게 된다면 해당 엔티티가 수정된 경우에도 화면에는 수정전 데이터가 표시됨)
@@ -150,7 +152,9 @@ public class PatientController {
     public String deletePatient(HttpSession session, Model model) {
         Patient loggedInUser = (Patient) session.getAttribute("loggedInUser");
         if (loggedInUser == null) {
-            return "redirect:/";
+            model.addAttribute("form", new PatientForm());
+            model.addAttribute("needToSignIn", true);
+            return "loginForm";
         }
 
         return "patient/deletePatient";

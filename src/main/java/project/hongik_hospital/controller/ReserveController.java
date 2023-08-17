@@ -8,8 +8,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import project.hongik_hospital.domain.*;
+import project.hongik_hospital.form.PatientForm;
 import project.hongik_hospital.form.ReserveForm;
 import project.hongik_hospital.repository.DepartmentRepository;
 import project.hongik_hospital.service.DoctorService;
@@ -19,6 +19,7 @@ import project.hongik_hospital.service.ReserveService;
 
 import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -33,11 +34,13 @@ public class ReserveController {
     private final DepartmentRepository departmentRepository; //추후에 DepartmentService로 교체 가능
 
     @GetMapping("/reserve/department")
-    public String selectReserveDepartment(Model model,HttpSession session) {
+    public String selectReserveDepartment(Model model, HttpSession session) {
 
         Patient loggedInUser = (Patient) session.getAttribute("loggedInUser");
         if (loggedInUser == null) {
-            return "redirect:/";
+            model.addAttribute("form", new PatientForm());
+            model.addAttribute("needToSignIn", true);
+            return "loginForm";
         }
 
         model.addAttribute("form", new ReserveForm());
@@ -81,12 +84,35 @@ public class ReserveController {
         Doctor doctor = doctorService.findDoctor(doctorId);
 
         TreatmentDate treatmentDate = TreatmentDate.createTreatmentDate(form.getMonth(), form.getDate(), form.getHour(), form.getMinute());
+
+        //의사가 예약하려는 시간에 이미 예약이 차 있다면 예약 불가 창이 떠야 함
         Reserve reserve = Reserve.createReserve(patient, doctor, LocalDateTime.now(), treatmentDate);
         reserveService.makeReserve(reserve);
 
-        //의사가 예약하려는 시간에 이미 예약이 차 있다면 예약 불가 창이 떠야 함
 
         log.info("POST: select doctor and treatmentTime");
         return "redirect:/";
+    }
+
+    @GetMapping("/reserve/history")
+    public String getReserveHistory(@ModelAttribute("form") ReserveForm form, Model model, HttpSession session) {
+        Patient loggedInUser = (Patient) session.getAttribute("loggedInUser");
+        if (loggedInUser == null) {
+            return "loginForm";
+        }
+        Patient patient = patientService.findPatient(loggedInUser.getId());
+        List<ReserveDto> reserveDtos = new ArrayList<>();
+        List<Reserve> reserves = patient.getReserves();
+        for (Reserve reserve : reserves) {
+            if(reserve.getReserveDate() == form.)
+        }
+        //reserves에서 form에서 넘어온 status와 같은 reserve만 가져와 dto로 넘김
+
+
+        for (Reserve reserve : reserves) reserveDtos.add(new ReserveDto(reserve));
+
+        model.addAttribute("reserves", reserveDtos);
+
+        return "reserve/reserveHistory";
     }
 }

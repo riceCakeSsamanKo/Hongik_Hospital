@@ -3,6 +3,7 @@ package project.hongik_hospital.form;
 import lombok.Data;
 import project.hongik_hospital.domain.Department;
 import project.hongik_hospital.domain.Doctor;
+import project.hongik_hospital.domain.ReserveStatus;
 
 import java.util.List;
 
@@ -15,4 +16,5 @@ public class ReserveForm {
     private int date;
     private int hour;
     private int minute;
+    private ReserveStatus status;
 }

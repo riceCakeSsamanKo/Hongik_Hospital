@@ -1,22 +1,23 @@
-    <!DOCTYPE HTML>
-    <html xmlns:th="http://www.thymeleaf.org">
-    <head th:replace="fragments/header :: header"/>
-    <body>
-    <div class="container">
-        <div th:replace="fragments/bodyHeader :: bodyHeader"/>
-        <h1>예약 신청</h1>
-        <h4>진료과 선택</h4>
-          <!--th:action="@{/reserve/department/doctor}에 의해서 전달된 데이터(departmentId)가 form으로 주입됨-->
-        <form th:action="@{/reserve/department/doctor}" th:object="${form}" method="get" id="reservationForm">
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header"/>
+<body>
+<div class="container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+    <h1>예약 신청</h1>
+    <h4>진료과 선택</h4>
+    <!--th:action="@{/reserve/department/doctor}에 의해서 전달된 데이터(departmentId)가 form으로 주입됨-->
+    <form th:action="@{/reserve/department/doctor}" th:object="${form}" method="get" id="reservationForm">
         <!-- method = get으로 설정되어 있으므로 반환된 데이터가 GetMapping으로 전달됨.-->
-            <div class="form-group">
-                <label for="department">부서:</label>
-                <select class="form-control" id="department" th:field="*{departmentId}">
-                    <option th:each="dept : ${hospital.departments}" th:value="${dept.id}" th:text="${dept.name}"></option>
-                </select>
-            </div>
-            <button type="submit" class="btn btn-primary" id="reserveButton">예약 신청</button>
-        </form>
-    </div>
-    </body>
-    </html>
+        <div class="form-group">
+            <label for="department">부서:</label>
+            <select class="form-control" id="department" th:field="*{departmentId}">
+                <option th:each="dept : ${hospital.departments}" th:value="${dept.id}" th:text="${dept.name}"></option>
+            </select>
+        </div>
+        <p th:if="${isAlreadyReserved}" class="text-danger">해당 시간은 이미 예약이 완료 되었습니다.</p>
+        <button type="submit" class="btn btn-primary" id="reserveButton">예약 신청</button>
+    </form>
+</div>
+</body>
+</html>

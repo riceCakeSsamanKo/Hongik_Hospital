@@ -83,6 +83,7 @@ public class Reserve {
         reserve.setReserveDate(reserveDate);
         reserve.setReserveStatus(RESERVE);
         reserve.setFee(0);
+
         // fee는 reserveStatus가 COMPLETE인 경우에 책정 하기로 함 ㅇㅇ.
         return reserve;
     }
