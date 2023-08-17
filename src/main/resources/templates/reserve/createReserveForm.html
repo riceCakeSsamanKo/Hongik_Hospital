@@ -24,7 +24,9 @@
         <div class="form-group">
             <label for="date">일:</label>
             <select class="form-control" id="date" th:field="*{date}">
-                <option th:each="d : ${#numbers.sequence(1, 31)}" th:value="${d}"
+                <!-- 일 선택 옵션은 모두 활성화되어 있음 -->
+                <option th:each="d : ${#numbers.sequence(1, 31)}"
+                        th:value="${d}"
                         th:text="${d}"></option>
             </select>
         </div>
@@ -41,8 +43,44 @@
                 <option value="30">30</option>
             </select>
         </div>
+        <p th:if="${isAlreadyReserved}" class="text-danger">해당 시간은 이미 예약이 완료 되었습니다.</p>
         <button type="submit" class="btn btn-primary">예약 신청</button>
     </form>
 </div>
+<script th:inline="javascript">
+    // JavaScript 코드를 Thymeleaf에서 처리하기 위해 th:inline 속성을 사용
+
+    // 월 선택 요소를 가져옴
+    const monthSelect = document.getElementById('month');
+    // 일 선택 요소를 가져옴
+    const dateSelect = document.getElementById('date');
+
+    // 월 선택이 변경될 때마다 최대 일수 업데이트
+    monthSelect.addEventListener('change', function () {
+        const selectedMonth = parseInt(monthSelect.value);
+        const daysInMonth = new Date(new Date().getFullYear(), selectedMonth, 0).getDate();
+
+        // 일 선택 옵션 업데이트
+        dateSelect.innerHTML = ''; // 기존 옵션 제거
+
+        for (let day = 1; day <= daysInMonth; day++) {
+            const option = document.createElement('option');
+            option.value = day;
+            option.text = day;
+            dateSelect.appendChild(option);
+        }
+    });
+
+    // 초기에도 최대 일수 설정
+    const initialMonth = parseInt(monthSelect.value);
+    const initialDaysInMonth = new Date(new Date().getFullYear(), initialMonth, 0).getDate();
+
+    for (let day = 1; day <= initialDaysInMonth; day++) {
+        const option = document.createElement('option');
+        option.value = day;
+        option.text = day;
+        dateSelect.appendChild(option);
+    }
+</script>
 </body>
 </html>

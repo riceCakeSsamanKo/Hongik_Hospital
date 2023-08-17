@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -72,7 +73,7 @@ public class ReserveController {
     }
 
     @PostMapping("reserve/department/doctor")
-    public String getReserveDoctor(ReserveForm form, HttpSession session) {
+    public String getReserveDoctor(ReserveForm form, BindingResult result, Model model, HttpSession session) {
         Patient loggedInUser = (Patient) session.getAttribute("loggedInUser");
         Patient patient = patientService.findPatient(loggedInUser.getId());
 
@@ -80,13 +81,12 @@ public class ReserveController {
         Doctor doctor = doctorService.findDoctor(doctorId);
 
         TreatmentDate treatmentDate = TreatmentDate.createTreatmentDate(form.getMonth(), form.getDate(), form.getHour(), form.getMinute());
-
-        Reserve reserve = Reserve.createReserve(patient, doctor , LocalDateTime.now(), treatmentDate);
-
+        Reserve reserve = Reserve.createReserve(patient, doctor, LocalDateTime.now(), treatmentDate);
         reserveService.makeReserve(reserve);
+
+        //의사가 예약하려는 시간에 이미 예약이 차 있다면 예약 불가 창이 떠야 함
+
         log.info("POST: select doctor and treatmentTime");
         return "redirect:/";
     }
-
-    //의사가 예약하려는 시간에 이미 예약이 차 있다면 예약 불가 떠야 함
 }
