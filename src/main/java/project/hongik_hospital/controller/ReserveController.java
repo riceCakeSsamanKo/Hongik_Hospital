@@ -101,15 +101,17 @@ public class ReserveController {
             return "loginForm";
         }
         Patient patient = patientService.findPatient(loggedInUser.getId());
+
         List<ReserveDto> reserveDtos = new ArrayList<>();
         List<Reserve> reserves = patient.getReserves();
-        for (Reserve reserve : reserves) {
-            if(reserve.getReserveDate() == form.)
-        }
+
         //reserves에서 form에서 넘어온 status와 같은 reserve만 가져와 dto로 넘김
+        for (Reserve reserve : reserves) {
+            if (reserve.getReserveStatus() == form.getStatus()) {
+                reserveDtos.add(new ReserveDto(reserve));
+            }
+        }
 
-
-        for (Reserve reserve : reserves) reserveDtos.add(new ReserveDto(reserve));
 
         model.addAttribute("reserves", reserveDtos);
 
