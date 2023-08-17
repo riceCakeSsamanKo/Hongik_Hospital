@@ -2,19 +2,13 @@ package project.hongik_hospital.domain;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 
 import javax.persistence.*;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-import static javax.persistence.CascadeType.*;
-import static javax.persistence.FetchType.*;
+import static javax.persistence.CascadeType.ALL;
+import static javax.persistence.FetchType.LAZY;
 import static lombok.AccessLevel.PROTECTED;
 
 @Entity
@@ -22,7 +16,8 @@ import static lombok.AccessLevel.PROTECTED;
 @NoArgsConstructor(access = PROTECTED)
 public class Doctor {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     @Column(name = "doctor_id")
     private Long id;
 
@@ -44,10 +39,14 @@ public class Doctor {
     }
 
     // setter
-    public void setName(String doctorName){this.name = doctorName;}
+    public void setName(String doctorName) {
+        this.name = doctorName;
+    }
+
     public void setCareer(int career) {
         this.career = career;
     }
+
     protected void setDepartment(Department department) {
         this.department = department;
     }
@@ -66,10 +65,15 @@ public class Doctor {
 
     // 비즈니스 로직
     public void cancelTreatment(TreatmentDate treatmentDate) {
-        for (int i = 0; i < treatmentDates.size(); i++) {
-            if (treatmentDates.get(i).compare(treatmentDate)) {
-                treatmentDates.get(i).setDoctor(null);
+        List<TreatmentDate> datesToRemove = new ArrayList<>();
+
+        for (TreatmentDate date : treatmentDates) {
+            if (date.compare(treatmentDate)) {
+                date.setDoctor(null);
+                datesToRemove.add(date);
             }
         }
+
+        treatmentDates.removeAll(datesToRemove);
     }
 }

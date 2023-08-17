@@ -53,6 +53,7 @@ public class TreatmentDateRepository {
 
     public void remove(Long treatmentDateId) {
         em.createQuery("DELETE FROM TreatmentDate td WHERE td.id = :id")
-                .setParameter("id", treatmentDateId);
+                .setParameter("id", treatmentDateId)
+                .executeUpdate();
     }
 }

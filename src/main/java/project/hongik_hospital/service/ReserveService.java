@@ -45,7 +45,7 @@ public class ReserveService {
     public void cancel(Long reserveId) {
         Reserve reserve = reserveRepository.findOne(reserveId);
         reserve.cancel();
-        treatmentDateRepository.remove(reserve.getTreatmentDate().getId());
+//        treatmentDateRepository.remove(reserve.getTreatmentDate().getId()); 외래키 연관관계 때문에 reserve를 남겨두고 treatmentDate를 삭제할 수가 없다 ㅅㅂ
     }
 
     public void complete(Long reserveId,int fee) {
