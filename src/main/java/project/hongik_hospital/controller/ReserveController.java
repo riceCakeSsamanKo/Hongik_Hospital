@@ -32,7 +32,12 @@ public class ReserveController {
     private final DepartmentRepository departmentRepository; //추후에 DepartmentService로 교체 가능
 
     @GetMapping("/reserve/department")
-    public String selectReserveDepartment(Model model) {
+    public String selectReserveDepartment(Model model,HttpSession session) {
+
+        Patient loggedInUser = (Patient) session.getAttribute("loggedInUser");
+        if (loggedInUser == null) {
+            return "redirect:/";
+        }
 
         model.addAttribute("form", new ReserveForm());
 
