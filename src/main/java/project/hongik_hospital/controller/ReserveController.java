@@ -87,8 +87,13 @@ public class ReserveController {
         TreatmentDate treatmentDate = TreatmentDate.createTreatmentDate(form.getMonth(), form.getDate(), form.getHour(), form.getMinute());
 
         //의사가 예약하려는 시간에 이미 예약이 차 있다면 예약 불가 창이 떠야 함
-        Reserve reserve = Reserve.createReserve(patient, doctor, LocalDateTime.now(), treatmentDate);
-        reserveService.saveReserve(reserve);
+        try {
+            Reserve reserve = Reserve.createReserve(patient, doctor, LocalDateTime.now(), treatmentDate);
+            reserveService.saveReserve(reserve);
+        } catch (IllegalStateException e) {
+            log.info(e.getMessage());
+            return "reserve/error";
+        }
 
 
         log.info("POST: select doctor and treatmentTime");

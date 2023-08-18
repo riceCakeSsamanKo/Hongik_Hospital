@@ -1,0 +1,20 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header"/>
+<body>
+<div class="container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+    <div>
+        <form th:object="${address}">
+            <div class="form-group">
+                <p><strong th:text="'city: '"></strong> <span th:text="${address.city}"></span></p>
+                <p><strong th:text="'street: '"></strong> <span th:text="${address.street}"></span></p>
+                <p><strong th:text="'zipcode: '"></strong> <span th:text="${address.zipcode}"></span></p>
+            </div>
+        </form>
+        <a href="/hospital" class="btn btn-primary">돌아가기</a>
+    </div>
+    <div th:replace="fragments/footer :: footer"/>
+</div> <!-- /container -->
+</body>
+</html>

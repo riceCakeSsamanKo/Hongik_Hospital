@@ -21,7 +21,6 @@ public class InitDB {
     @PostConstruct  // 빈으로 등록될 시 자동으로 실행됨
     public void init(){
         initService.dbInit1();
-        initService.dbInit2();
     }
 
     @Component
@@ -60,12 +59,6 @@ public class InitDB {
 
             Hospital hospital = new Hospital("Hongik Hospital", address, dp1, dp2, dp3);
             hospitalService.join(hospital);
-        }
-
-        void dbInit2() {
-            Patient patient2 = new Patient("환자2", 40, GenderType.FEMALE);
-            patient2.setLogIn("2", "2");
-            patientService.join(patient2);
         }
     }
 }
