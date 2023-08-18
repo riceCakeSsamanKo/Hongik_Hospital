@@ -39,8 +39,17 @@ public class PatientController {
     }
 
     @PostMapping("/patient/new")
-    public String create(@Valid PatientForm form, BindingResult result) {
+    public String create(@Valid PatientForm form, Model model, BindingResult result) {
         if (result.hasErrors()) {
+            return "patient/createPatientForm";
+        }
+
+        Optional<Patient> optionalPatient = patientService.findPatientByLoginId(form.getLogin_id());
+        //이미 가입된 아이디인지 확인
+        if (optionalPatient.isPresent()) {
+            result.rejectValue("login_id", "invalid", "Login id already exists");
+            model.addAttribute("form", new PatientForm());
+            model.addAttribute("isIdAlreadyExist", true);
             return "patient/createPatientForm";
         }
 

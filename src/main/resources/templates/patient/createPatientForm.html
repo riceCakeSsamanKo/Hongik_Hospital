@@ -17,6 +17,7 @@
                    th:class="${#fields.hasErrors('login_id')}? 'form-control fieldError' : 'form-control'">
             <p th:if="${#fields.hasErrors('login_id')}" th:errors="*{login_id}">잘못된 아이디</p>
         </div>
+        <p th:if="${isIdAlreadyExist}" class="text-danger">이미 가입된 아이디입니다.</p>
         <div class="form-group">
             <label th:for="name">Password</label>
             <input type="text" th:field="*{login_pw}" class="form-control"

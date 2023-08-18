@@ -44,6 +44,11 @@ public class PatientService {
         return patientRepository.findByName(name);
     }
 
+    @Transactional(readOnly = true)
+    public Optional<Patient> findPatientByLoginId(String login_id) {
+        return patientRepository.findByLogInfo(login_id);
+    }
+
     public void update(Long id, String loginId, String loginPw, String name, int age, GenderType gender) {
         Patient patient = patientRepository.findOne(id);
         patient.update(loginId, loginPw, name, age, gender);

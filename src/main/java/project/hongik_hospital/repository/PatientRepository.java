@@ -39,6 +39,19 @@ public class PatientRepository {
                 .getResultList();
     }
 
+    public Optional<Patient> findByLogInfo(String login_id) {
+        try {
+            Patient result = em.createQuery("select p from Patient p " +
+                            "where p.logIn.login_id = :id ", Patient.class)
+                    .setParameter("id", login_id)
+                    .getSingleResult();
+
+            return Optional.ofNullable(result);
+        } catch (NoResultException e) {
+            return Optional.empty();
+        }
+    }
+
     public Optional<Patient> findByLogInfo(String id, String pw) {
         try {
             Patient result = em.createQuery("select p from Patient p " +
