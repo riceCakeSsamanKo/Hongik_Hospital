@@ -17,9 +17,9 @@
 
         <div class="form-group">
             <label for="month">월:</label>
-            <select class="form-control" id="month" th:field="*{month}">
-                <option th:each="m : ${#numbers.sequence(1, 12)}" th:value="${m}" th:text="${m}"></option>
-            </select>
+            <select class="form-control" id="month" th:field="*{month}" onchange="updateDateOptions()">
+        <option th:each="m : ${#numbers.sequence(1, 12)}" th:value="${m}" th:text="${m}"></option>
+    </select>
         </div>
         <div class="form-group">
             <label for="date">일:</label>
@@ -71,9 +71,8 @@
         }
     });
 
-    // 초기에도 최대 일수 설정
-    const initialMonth = parseInt(monthSelect.value);
-    const initialDaysInMonth = new Date(new Date().getFullYear(), initialMonth, 0).getDate();
+    // 초기에 최대 일수 설정
+    const initialDaysInMonth = new Date(new Date().getFullYear(), 1, 0).getDate(); // 1월의 최대 일수
 
     for (let day = 1; day <= initialDaysInMonth; day++) {
         const option = document.createElement('option');
@@ -81,6 +80,31 @@
         option.text = day;
         dateSelect.appendChild(option);
     }
+
+    const daysInMonth = [
+        0,
+        31, 28, 31, 30, 31, 30,
+        31, 31, 30, 31, 30, 31
+    ];
+
+    function updateDateOptions() {
+        const monthSelect = document.getElementById('month');
+        const dateSelect = document.getElementById('date');
+
+        const selectedMonth = parseInt(monthSelect.value);
+        const days = daysInMonth[selectedMonth];
+
+        dateSelect.innerHTML = '';
+        for (let day = 1; day <= days; day++) {
+            const option = document.createElement('option');
+            option.value = day;
+            option.text = day;
+            dateSelect.appendChild(option);
+        }
+    }
+
+    // 초기에도 호출해서 현재 선택된 월에 맞게 일 선택 옵션을 업데이트
+    updateDateOptions();
 </script>
 </body>
 </html>

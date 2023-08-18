@@ -1,1 +1,42 @@
-hospital/departmentInfo.html 구현 필요
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header"/>
+<body>
+<div class="container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+    <div>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>진료과</th>
+                <th>담당 의사명</th>
+                <th>의사 경력</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="department : ${departments}">
+                <td th:text="${department.name}"></td>
+                <td>
+                    <ul>
+                        <li th:each="doctor : ${department.doctors}">
+                            <span th:text="${doctor.name}"></span>
+                        </li>
+                    </ul>
+                </td>
+                <td>
+                    <ul>
+                        <li th:each="doctor : ${department.doctors}">
+                            <span th:text="${doctor.career}"></span> years
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <a href="/hospital" class="btn btn-primary" style="float: right;">돌아가기</a>
+    </div>
+
+    <div th:replace="fragments/footer :: footer"/>
+</div> <!-- /container -->
+</body>
+</html>

@@ -44,8 +44,8 @@ public class PatientController {
             return "patient/createPatientForm";
         }
 
+        // 이미 가입된 아이딘지 확인하는 로직
         Optional<Patient> optionalPatient = patientService.findPatientByLoginId(form.getLogin_id());
-        //이미 가입된 아이디인지 확인
         if (optionalPatient.isPresent()) {
             result.rejectValue("login_id", "invalid", "Login id already exists");
             model.addAttribute("form", new PatientForm());
