@@ -105,7 +105,7 @@ public class Reserve {
     public void setReserveStatus(ReserveStatus reserveStatus) {
         this.reserveStatus = reserveStatus;
     }
-    private void setTreatmentDate(TreatmentDate treatmentDate) {
+    public void setTreatmentDate(TreatmentDate treatmentDate) {
         this.treatmentDate = treatmentDate;
     }
     public void setFee(int fee){this.fee = fee;}
@@ -122,7 +122,6 @@ public class Reserve {
             throw new IllegalStateException("이미 완료된 진료는 취소가 불가합니다.");
         }
         setReserveStatus(CANCEL);
-        doctor.cancelTreatment(treatmentDate);
     }
 
     public void complete(int fee) {

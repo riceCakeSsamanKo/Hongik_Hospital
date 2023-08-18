@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import project.hongik_hospital.domain.Doctor;
 import project.hongik_hospital.domain.Reserve;
 import project.hongik_hospital.domain.ReserveStatus;
+import project.hongik_hospital.domain.TreatmentDate;
 import project.hongik_hospital.repository.DoctorRepository;
 import project.hongik_hospital.repository.ReserveRepository;
 import project.hongik_hospital.repository.TreatmentDateRepository;
@@ -44,8 +45,17 @@ public class ReserveService {
 
     public void cancel(Long reserveId) {
         Reserve reserve = reserveRepository.findOne(reserveId);
+        TreatmentDate treatmentDate = reserve.getTreatmentDate();
+        Doctor doctor = reserve.getDoctor();
+
+        // doctor의 treatments 컬렉션에서 treatment 제거
+        doctor.cancelTreatment(treatmentDate);
+        // doctor와 treatment간 연관관계 해제
+        treatmentDate.setDoctor(null);
+        // treatmentDate를 다시 저장함으로써 doctor의 fk 제거를 DB에 반영
+        treatmentDateRepository.save(treatmentDate);
+
         reserve.cancel();
-//        treatmentDateRepository.remove(reserve.getTreatmentDate().getId()); 외래키 연관관계 때문에 reserve를 남겨두고 treatmentDate를 삭제할 수가 없다 ㅅㅂ
     }
 
     public void complete(Long reserveId,int fee) {

@@ -69,7 +69,6 @@ public class Doctor {
 
         for (TreatmentDate date : treatmentDates) {
             if (date.compare(treatmentDate)) {
-                date.setDoctor(null);
                 datesToRemove.add(date);
             }
         }

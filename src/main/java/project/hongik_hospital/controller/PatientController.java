@@ -137,7 +137,7 @@ public class PatientController {
         System.out.println("loggedInUser = " + loggedInUser);
 
         // form으로 새롭게 가져온 데이터
-        String loginId = form.getLogin_id();
+        String loginId = loggedInUser.getLogIn().getLogin_id();  //id는 변경하지 않음
         String loginPw = form.getLogin_pw();
         String name = form.getName();
         int age = Integer.parseInt(form.getAge());
