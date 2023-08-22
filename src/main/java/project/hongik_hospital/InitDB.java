@@ -12,6 +12,9 @@ import project.hongik_hospital.service.PatientService;
 
 import javax.annotation.PostConstruct;
 
+import static project.hongik_hospital.domain.AccountType.*;
+import static project.hongik_hospital.domain.GenderType.*;
+
 @Component
 @RequiredArgsConstructor
 public class InitDB {
@@ -20,7 +23,9 @@ public class InitDB {
 
     @PostConstruct  // 빈으로 등록될 시 자동으로 실행됨
     public void init(){
-        initService.dbInit1();
+        initService.hospitalInit();
+        initService.patientInit();
+        initService.adminInit();
     }
 
     @Component
@@ -33,11 +38,7 @@ public class InitDB {
         private final HospitalService hospitalService;
         // 필요시 더 추가할 것
 
-        void dbInit1() {
-            Patient patient1 = new Patient("환자1", 110, GenderType.MALE);
-            patient1.setLogIn("1", "1");
-            patientService.join(patient1);
-
+        void hospitalInit() {
             Doctor doctor1 = new Doctor("정형외과 닥터1", 10);
             Doctor doctor2 = new Doctor("정형외과 닥터2", 10);
             Doctor doctor3 = new Doctor("성형외과 닥터1", 10);
@@ -59,6 +60,36 @@ public class InitDB {
 
             Hospital hospital = new Hospital("Hongik Hospital", address, dp1, dp2, dp3);
             hospitalService.join(hospital);
+        }
+        void patientInit() {
+            Patient patient1 = new Patient("환자1", 17, MALE);
+            patient1.setLogIn("1", "1");
+            patientService.join(patient1);
+
+            Patient patient2 = new Patient("환자2", 31, MALE);
+            patient2.setLogIn("2", "2");
+            patientService.join(patient2);
+
+            Patient patient3 = new Patient("환자3", 64, FEMALE);
+            patient3.setLogIn("3", "3");
+            patientService.join(patient3);
+
+            Patient patient4 = new Patient("환자4", 44, FEMALE);
+            patient4.setLogIn("4", "4");
+            patientService.join(patient4);
+
+
+        }
+        void adminInit() {
+            Patient admin1 = new Patient("관리자1", 23, GenderType.MALE);
+            admin1.setLogIn("admin", "1111");
+            admin1.setAccountType(ADMIN);
+            patientService.join(admin1);
+
+            Patient admin2 = new Patient("관리자2", 36, GenderType.MALE);
+            admin2.setLogIn("god", "kingOfWebSite");
+            admin2.setAccountType(ADMIN);
+            patientService.join(admin2);
         }
     }
 }

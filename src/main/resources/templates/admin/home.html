@@ -1,0 +1,33 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header">
+    <title>Admin</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+<div class="container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+    <div class="jumbotron">
+        <h1>ADMIN PAGE</h1>
+        <!-- 수정 시작 -->
+        <div class="d-flex justify-content-end">
+            <p>
+                <a href="/">메인화면</a>
+                <a href="/patient/logout">로그아웃</a>
+            </p>
+        </div>
+        <!-- 수정 끝 -->
+        <p>
+            <a class="btn btn-lg btn-secondary" href="/admin/edit/patient">고객 정보 수정</a>
+            <a class="btn btn-lg btn-secondary" href="/admin/edit/department">진료과 수정</a>
+        </p>
+        <p>
+            <a class="btn btn-lg btn-dark" href="/admin/edit/doctorEdit">의사 정보 수정</a>
+            <a class="btn btn-lg btn-dark" href="/admin/manage/history">예약 내역 관리</a>
+        </p>
+
+    </div>
+    <div th:replace="fragments/footer :: footer"/>
+</div> <!-- /container -->
+</body>
+</html>

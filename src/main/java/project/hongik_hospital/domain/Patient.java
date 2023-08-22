@@ -1,9 +1,6 @@
 package project.hongik_hospital.domain;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -13,6 +10,7 @@ import java.util.List;
 import static javax.persistence.CascadeType.*;
 import static javax.persistence.EnumType.*;
 import static lombok.AccessLevel.PROTECTED;
+import static project.hongik_hospital.domain.AccountType.*;
 
 @Entity
 @Getter
@@ -28,6 +26,8 @@ public class Patient {
 
     @Enumerated(value = STRING)
     private GenderType gender;
+    @Enumerated(value = STRING)  //default는 USER
+    private AccountType accountType = USER;
 
     @Embedded
     private LogInInformation logIn;
@@ -54,6 +54,9 @@ public class Patient {
     }
     public void setLogIn(String id, String pw) {
         this.logIn = new LogInInformation(id, pw);
+    }
+    public void setAccountType(AccountType accountType) {
+        this.accountType = accountType;
     }
 
     // 비즈니스 로직

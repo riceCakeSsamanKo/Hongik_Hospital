@@ -2,6 +2,7 @@ package project.hongik_hospital.form;
 
 import lombok.Getter;
 import lombok.Setter;
+import project.hongik_hospital.domain.AccountType;
 import project.hongik_hospital.domain.GenderType;
 
 import javax.persistence.Enumerated;
@@ -27,4 +28,7 @@ public class PatientForm {
 
     @Enumerated(value = STRING)
     private GenderType gender;
+
+    @Enumerated(value = STRING)
+    private AccountType accountType;
 }

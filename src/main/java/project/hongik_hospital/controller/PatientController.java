@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import project.hongik_hospital.domain.AccountType;
 import project.hongik_hospital.domain.GenderType;
 import project.hongik_hospital.domain.Patient;
 import project.hongik_hospital.form.PatientForm;
@@ -19,6 +20,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.Optional;
 
+import static java.lang.Integer.*;
 import static java.lang.Integer.valueOf;
 
 @Controller
@@ -53,7 +55,7 @@ public class PatientController {
             return "patient/createPatientForm";
         }
 
-        Patient patient = new Patient(form.getName(), valueOf(form.getAge()), form.getGender());
+        Patient patient = new Patient(form.getName(), parseInt(form.getAge()), form.getGender());
         patient.setLogIn(form.getLogin_id(), form.getLogin_pw());
 
         patientService.join(patient);
@@ -70,22 +72,27 @@ public class PatientController {
     @PostMapping("/patient/login")
     public String beforeSignIn(@Valid PatientForm form, BindingResult result, HttpSession session, Model model) {
         // Check if the login credentials are valid
-        Optional<Patient> optioanlPatient = patientService.findPatient(form.getLogin_id(), form.getLogin_pw());
+        Optional<Patient> findPatient = patientService.findPatient(form.getLogin_id(), form.getLogin_pw());
 
-        if (optioanlPatient.isEmpty()) {
+        if (findPatient.isEmpty()) {  // 등록된 회원이 없는 경우
             result.rejectValue("login_id", "invalid", "Invalid login credentials");
             model.addAttribute("form", new PatientForm());
-            model.addAttribute("isSignInFail", true);
+            model.addAttribute("isSignInFail", true); // 등록된 회원이 아닌 경우 경고 발생
             return "loginForm";
         }
 
-        Patient patient = optioanlPatient.get();
+        Patient patient = findPatient.get();
         // Set the 'loggedIn' attribute to true and store the patient's information
         model.addAttribute("patient", patient);
         model.addAttribute("loggedIn", true);
 
         // 사용자 정보를 세션에 저장
         session.setAttribute("loggedInUser", patient);
+
+        if (patient.getAccountType() == AccountType.ADMIN) {
+            // 운영자 전용 페이지로 이동
+            return "admin/home";
+        }
 
         log.info("Logged in: " + patient.getName());
         return "redirect:/"; // Redirect to the home page
@@ -149,7 +156,7 @@ public class PatientController {
         String loginId = loggedInUser.getLogIn().getLogin_id();  //id는 변경하지 않음
         String loginPw = form.getLogin_pw();
         String name = form.getName();
-        int age = Integer.parseInt(form.getAge());
+        int age = parseInt(form.getAge());
         GenderType gender = form.getGender();
 
         patientService.update(patientId, loginId, loginPw, name, age, gender);
