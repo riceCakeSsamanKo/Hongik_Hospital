@@ -2,7 +2,7 @@ package project.hongik_hospital.repository;
 
 import org.springframework.stereotype.Repository;
 import project.hongik_hospital.domain.Doctor;
-import project.hongik_hospital.domain.Patient;
+import project.hongik_hospital.domain.User;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;

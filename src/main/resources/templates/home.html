@@ -13,19 +13,19 @@
                 <div class="d-flex justify-content-end">
                     <p>
                         <span th:if="${loggedIn}">
-                            <a href="/patient/logout">로그아웃</a>
+                            <a href="/user/logout">로그아웃</a>
                         </span>
                         <span th:unless="${loggedIn}">
-                            <a href="/patient/login">로그인</a>
-                            <a href="/patient/new">회원 가입</a>
+                            <a href="/user/login">로그인</a>
+                            <a href="/user/new">회원 가입</a>
                         </span>
                     </p>
                 </div>
                 <!-- 수정 끝 -->
                 <p class="lead">고객 기능</p>
                 <p>
-                    <a class="btn btn-lg btn-secondary" href="/patient">고객 정보</a>
-                    <a class="btn btn-lg btn-secondary" href="/patient/delete">회원 탈퇴</a>
+                    <a class="btn btn-lg btn-secondary" href="/user">고객 정보</a>
+                    <a class="btn btn-lg btn-secondary" href="/user/delete">회원 탈퇴</a>
                 </p>
                 <p class="lead">예약 접수 기능</p>
                 <p>

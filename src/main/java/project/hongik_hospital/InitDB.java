@@ -8,7 +8,7 @@ import project.hongik_hospital.domain.*;
 import project.hongik_hospital.repository.HospitalRepository;
 import project.hongik_hospital.service.DoctorService;
 import project.hongik_hospital.service.HospitalService;
-import project.hongik_hospital.service.PatientService;
+import project.hongik_hospital.service.UserService;
 
 import javax.annotation.PostConstruct;
 
@@ -24,7 +24,7 @@ public class InitDB {
     @PostConstruct  // 빈으로 등록될 시 자동으로 실행됨
     public void init(){
         initService.hospitalInit();
-        initService.patientInit();
+        initService.userInit();
         initService.adminInit();
     }
 
@@ -33,7 +33,7 @@ public class InitDB {
     @RequiredArgsConstructor
     static class InitService {
 
-        private final PatientService patientService;
+        private final UserService userService;
         private final DoctorService doctorService;
         private final HospitalService hospitalService;
         // 필요시 더 추가할 것
@@ -61,35 +61,35 @@ public class InitDB {
             Hospital hospital = new Hospital("Hongik Hospital", address, dp1, dp2, dp3);
             hospitalService.join(hospital);
         }
-        void patientInit() {
-            Patient patient1 = new Patient("환자1", 17, MALE);
-            patient1.setLogIn("1", "1");
-            patientService.join(patient1);
+        void userInit() {
+            User user1 = new User("환자1", 17, MALE);
+            user1.setLogIn("1", "1");
+            userService.join(user1);
 
-            Patient patient2 = new Patient("환자2", 31, MALE);
-            patient2.setLogIn("2", "2");
-            patientService.join(patient2);
+            User user2 = new User("환자2", 31, MALE);
+            user2.setLogIn("2", "2");
+            userService.join(user2);
 
-            Patient patient3 = new Patient("환자3", 64, FEMALE);
-            patient3.setLogIn("3", "3");
-            patientService.join(patient3);
+            User user3 = new User("환자3", 64, FEMALE);
+            user3.setLogIn("3", "3");
+            userService.join(user3);
 
-            Patient patient4 = new Patient("환자4", 44, FEMALE);
-            patient4.setLogIn("4", "4");
-            patientService.join(patient4);
+            User user4 = new User("환자4", 44, FEMALE);
+            user4.setLogIn("4", "4");
+            userService.join(user4);
 
 
         }
         void adminInit() {
-            Patient admin1 = new Patient("관리자1", 23, GenderType.MALE);
+            User admin1 = new User("관리자1", 23, GenderType.MALE);
             admin1.setLogIn("admin", "1111");
             admin1.setAccountType(ADMIN);
-            patientService.join(admin1);
+            userService.join(admin1);
 
-            Patient admin2 = new Patient("관리자2", 36, GenderType.MALE);
+            User admin2 = new User("관리자2", 36, GenderType.MALE);
             admin2.setLogIn("god", "kingOfWebSite");
             admin2.setAccountType(ADMIN);
-            patientService.join(admin2);
+            userService.join(admin2);
         }
     }
 }

@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import project.hongik_hospital.domain.Address;
 import project.hongik_hospital.domain.Department;
 import project.hongik_hospital.domain.Hospital;
-import project.hongik_hospital.domain.Patient;
-import project.hongik_hospital.form.PatientForm;
+import project.hongik_hospital.domain.User;
+import project.hongik_hospital.form.UserForm;
 import project.hongik_hospital.service.HospitalService;
 
 import javax.servlet.http.HttpSession;
@@ -25,9 +25,9 @@ public class HospitalController {
 
     @RequestMapping("/hospital")
     public String hospitalInfo(Model model, HttpSession session) {
-        Patient loggedInUser = (Patient) session.getAttribute("loggedInUser");
+        User loggedInUser = (User) session.getAttribute("loggedInUser");
         if (loggedInUser == null) {
-            model.addAttribute("form", new PatientForm());
+            model.addAttribute("form", new UserForm());
             model.addAttribute("needToSignIn", true);
             return "loginForm";
         }

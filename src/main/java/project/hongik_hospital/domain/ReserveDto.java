@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 @Data
 public class ReserveDto {
     private Long id;
-    private Patient patient;
+    private User user;
     private Doctor doctor;
     private Department department;
     private Hospital hospital;
@@ -17,7 +17,7 @@ public class ReserveDto {
 
     public ReserveDto(Reserve reserve) {
         id = reserve.getId();
-        patient = reserve.getPatient();
+        user = reserve.getUser();
         doctor = reserve.getDoctor();
         department = reserve.getDepartment();
         hospital = reserve.getHospital();

@@ -12,9 +12,9 @@ import static javax.persistence.EnumType.STRING;
 
 @Getter
 @Setter
-public class PatientForm {
+public class UserForm {
 
-    private Long patientId;
+    private Long userId;
     private String login_id;
 
     @NotEmpty(message = "비밀번호는 필수입니다")

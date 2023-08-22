@@ -25,27 +25,27 @@ public class ReserveRepository {
 
     public List<Reserve> findAll() {
         return em.createQuery("select r from Reserve r " +
-                        "join fetch r.patient p " +
+                        "join fetch r.user p " +
                         "join fetch r.doctor d " +
                         "join fetch r.department dp " +
                         "join fetch r.hospital h" ,Reserve.class)
                 .getResultList();
     }
 
-    public List<Reserve> findByPatientName(String patientName) {
+    public List<Reserve> findByUserName(String userName) {
         return em.createQuery("select r from Reserve r " +
-                        "join fetch r.patient p " +
+                        "join fetch r.user p " +
                         "join fetch r.doctor d " +
                         "join fetch r.department dp " +
                         "join fetch r.hospital h " +
-                        "where r.patient.name = :patientName", Reserve.class)
-                .setParameter("patientName", patientName)
+                        "where r.user.name = :userName", Reserve.class)
+                .setParameter("userName", userName)
                 .getResultList();
     }
 
     public List<Reserve> findByStatus(ReserveStatus status) {
         return em.createQuery("select r from Reserve r " +
-                        "join fetch r.patient p " +
+                        "join fetch r.user p " +
                         "join fetch r.doctor d " +
                         "join fetch r.department dp " +
                         "join fetch r.hospital h " +

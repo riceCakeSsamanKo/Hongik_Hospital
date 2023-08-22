@@ -25,7 +25,7 @@ class ReserveServiceTest {
 
     @BeforeEach
     public void each() {
-        Patient patient = new Patient("환자1", 20, MALE);
+        User user = new User("환자1", 20, MALE);
         Department department = new Department("asdf", "123124");
         Hospital hospital = new Hospital("asfdf", new Address("123", "123", "123"), department);
 
@@ -34,7 +34,7 @@ class ReserveServiceTest {
 
         TreatmentDate treatmentDate = new TreatmentDate(10,3,12,30);
 
-        Reserve reserve = Reserve.createReserve(patient, doctor, now(), treatmentDate);
+        Reserve reserve = Reserve.createReserve(user, doctor, now(), treatmentDate);
         reserveService.saveReserve(reserve);
     }
 

@@ -33,8 +33,8 @@ class ReserveRepositoryTest {
 
     @BeforeEach //각 테스트마다 데이터 주입
     public void each() {
-        Patient patient1 = new Patient("김환자", 30, MALE);
-        Patient patient2 = new Patient("양환자", 28, FEMALE);
+        User user1 = new User("김환자", 30, MALE);
+        User user2 = new User("양환자", 28, FEMALE);
 
         Address hospitalAddress1 = new Address("서울", "홍대거리", "12345");
         Address hospitalAddress2 = new Address("성남", "분당거리", "99999");
@@ -63,9 +63,9 @@ class ReserveRepositoryTest {
         TreatmentDate treatmentDate2 = new TreatmentDate(1,23,14,10);
         TreatmentDate treatmentDate3 = new TreatmentDate(6,7,10,30);
 
-        Reserve reserve1 = Reserve.createReserve(patient2, doctor1, now(),treatmentDate1);
-        Reserve reserve2 = Reserve.createReserve(patient1, doctor3, now(),treatmentDate2);
-        Reserve reserve3 = Reserve.createReserve(patient2, doctor4, now(),treatmentDate3);
+        Reserve reserve1 = Reserve.createReserve(user2, doctor1, now(),treatmentDate1);
+        Reserve reserve2 = Reserve.createReserve(user1, doctor3, now(),treatmentDate2);
+        Reserve reserve3 = Reserve.createReserve(user2, doctor4, now(),treatmentDate3);
 
         reserveRepository.save(reserve1);
         reserveRepository.save(reserve2);
@@ -81,14 +81,14 @@ class ReserveRepositoryTest {
     }
 
     @Test
-    void findByPatientName() {
-        List<Reserve> findReserve = reserveRepository.findByPatientName("김환자");
+    void findByUserName() {
+        List<Reserve> findReserve = reserveRepository.findByUserName("김환자");
 
         for (Reserve reserve : findReserve) {
             System.out.println("reserve = " + reserve);
         }
         Assertions.assertThat(findReserve.get(0).getDoctor().getName()).isEqualTo("이닥터");
-        Assertions.assertThat(findReserve.get(0).getPatient().getName()).isEqualTo("김환자");
+        Assertions.assertThat(findReserve.get(0).getUser().getName()).isEqualTo("김환자");
     }
 
     @Test

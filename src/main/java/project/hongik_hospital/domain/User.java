@@ -15,10 +15,10 @@ import static project.hongik_hospital.domain.AccountType.*;
 @Entity
 @Getter
 @NoArgsConstructor(access = PROTECTED)
-public class Patient {
+public class User {
 
     @Id @GeneratedValue
-    @Column(name = "patient_id")
+    @Column(name = "user_id")
     private Long id;
 
     private String name;
@@ -32,11 +32,11 @@ public class Patient {
     @Embedded
     private LogInInformation logIn;
 
-    @OneToMany(mappedBy = "patient",cascade = ALL)
+    @OneToMany(mappedBy = "user",cascade = ALL)
     List<Reserve> reserves = new ArrayList<>();
 
     // 생성자
-    public Patient(String name, int age, GenderType gender) {
+    public User(String name, int age, GenderType gender) {
         this.name = name;
         this.age = age;
         this.gender = gender;

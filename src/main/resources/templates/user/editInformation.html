@@ -1,26 +1,26 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/header :: header">
-    <title>Change Patient Information</title>
+    <title>Change User Information</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 </head>
 <body>
 <div class="container">
     <div th:replace="fragments/bodyHeader :: bodyHeader"/>
     <div class="jumbotron">
-        <h1>Change Patient Information</h1>
-        <form th:object="${form}" th:action="@{/patient/{id}/edit (id=${form.patientId})}" method="post" onsubmit="return validateForm()">
+        <h1>Change User Information</h1>
+        <form th:object="${form}" th:action="@{/user/{id}/edit (id=${form.userId})}" method="post" onsubmit="return validateForm()">
             <div class="form-group">
-                <p><strong th:text="'ID: '"></strong> <span th:text="${patient.logIn.login_id}"></span></p>
+                <p><strong th:text="'ID: '"></strong> <span th:text="${user.logIn.login_id}"></span></p>
             </div>
             <div class="form-group">
                 <label for="login_pw">Password</label>
-                <input type="text" class="form-control" id="login_pw" placeholder= "비밀번호를 입력하세요" th:field="*{login_pw}" th:value="${patient.logIn.login_pw}" />
+                <input type="text" class="form-control" id="login_pw" placeholder= "비밀번호를 입력하세요" th:field="*{login_pw}" th:value="${user.logIn.login_pw}" />
                 <small class="text-danger" th:if="${#fields.hasErrors('login_pw')}" th:errors="*{login_pw}">Password는 필수 입력값입니다</small>
             </div>
             <div class="form-group">
                 <label for="name">Name</label>
-                <input type="text" class="form-control" id="name" th:field="*{name}" placeholder= "이름을 입력하세요" th:value="${patient.name}" />
+                <input type="text" class="form-control" id="name" th:field="*{name}" placeholder= "이름을 입력하세요" th:value="${user.name}" />
                 <small class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name은 필수 입력값입니다</small>
             </div>
             <div class="form-group">

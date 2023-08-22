@@ -30,8 +30,8 @@ public class Reserve {
     private Long id;
 
     @ManyToOne(fetch = LAZY, cascade = ALL)
-    @JoinColumn(name = "patient_id")
-    private Patient patient;
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @ManyToOne(fetch = LAZY, cascade = ALL)
     @JoinColumn(name = "doctor_id")
@@ -57,7 +57,7 @@ public class Reserve {
     private ReserveStatus reserveStatus;
 
     // 생성 메서드
-    public static Reserve createReserve(Patient patient, Doctor doctor, LocalDateTime reserveDate, TreatmentDate treatmentDate) {
+    public static Reserve createReserve(User user, Doctor doctor, LocalDateTime reserveDate, TreatmentDate treatmentDate) {
 
         // 예약 불가 조건
         if (doctor.getDepartment() == null) {
@@ -76,7 +76,7 @@ public class Reserve {
 
         Reserve reserve = new Reserve();
         reserve.setTreatmentDate(treatmentDate);
-        reserve.setPatient(patient);
+        reserve.setUser(user);
         reserve.setDoctor(doctor);
         reserve.setDepartment(doctor.getDepartment());
         reserve.setHospital(doctor.getDepartment().getHospital());
@@ -111,9 +111,9 @@ public class Reserve {
     public void setFee(int fee){this.fee = fee;}
     
     // 연관관계 편의 메서드
-    public void setPatient(Patient patient) {
-        this.patient = patient;
-        patient.getReserves().add(this);
+    public void setUser(User user) {
+        this.user = user;
+        user.getReserves().add(this);
     }
 
     // 비즈니스 로직
@@ -134,7 +134,7 @@ public class Reserve {
     public String toString() {
         return "Reserve{" +
                 "id=" + id +
-                ", patient=" + patient.getName() +
+                ", user=" + user.getName() +
                 ", doctor=" + doctor.getName() +
                 ", department=" + department.getName() +
                 ", hospital=" + hospital.getName() +

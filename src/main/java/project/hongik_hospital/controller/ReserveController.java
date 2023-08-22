@@ -10,12 +10,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import project.hongik_hospital.domain.*;
-import project.hongik_hospital.form.PatientForm;
+import project.hongik_hospital.form.UserForm;
 import project.hongik_hospital.form.ReserveForm;
 import project.hongik_hospital.repository.DepartmentRepository;
 import project.hongik_hospital.service.DoctorService;
 import project.hongik_hospital.service.HospitalService;
-import project.hongik_hospital.service.PatientService;
+import project.hongik_hospital.service.UserService;
 import project.hongik_hospital.service.ReserveService;
 
 import javax.servlet.http.HttpSession;
@@ -29,7 +29,7 @@ import java.util.List;
 public class ReserveController {
 
     private final ReserveService reserveService;
-    private final PatientService patientService;
+    private final UserService userService;
     private final HospitalService hospitalService;
     private final DoctorService doctorService;
     private final DepartmentRepository departmentRepository; //추후에 DepartmentService로 교체 가능
@@ -37,9 +37,9 @@ public class ReserveController {
     @GetMapping("/reserve/department")
     public String selectReserveDepartment(Model model, HttpSession session) {
 
-        Patient loggedInUser = (Patient) session.getAttribute("loggedInUser");
+        User loggedInUser = (User) session.getAttribute("loggedInUser");
         if (loggedInUser == null) {
-            model.addAttribute("form", new PatientForm());
+            model.addAttribute("form", new UserForm());
             model.addAttribute("needToSignIn", true);
             return "loginForm";
         }
@@ -78,8 +78,8 @@ public class ReserveController {
 
     @PostMapping("reserve/department/doctor")
     public String getReserveDoctor(ReserveForm form, BindingResult result, Model model, HttpSession session) {
-        Patient loggedInUser = (Patient) session.getAttribute("loggedInUser");
-        Patient patient = patientService.findPatient(loggedInUser.getId());
+        User loggedInUser = (User) session.getAttribute("loggedInUser");
+        User user = userService.findUser(loggedInUser.getId());
 
         Long doctorId = form.getDoctorId();
         Doctor doctor = doctorService.findDoctor(doctorId);
@@ -88,7 +88,7 @@ public class ReserveController {
 
         //의사가 예약하려는 시간에 이미 예약이 차 있다면 예약 불가 창이 떠야 함
         try {
-            Reserve reserve = Reserve.createReserve(patient, doctor, LocalDateTime.now(), treatmentDate);
+            Reserve reserve = Reserve.createReserve(user, doctor, LocalDateTime.now(), treatmentDate);
             reserveService.saveReserve(reserve);
         } catch (IllegalStateException e) {
             log.info(e.getMessage());
@@ -102,16 +102,16 @@ public class ReserveController {
 
     @GetMapping("/reserve/history")
     public String getReserveHistory(@ModelAttribute("form") ReserveForm form, Model model, HttpSession session) {
-        Patient loggedInUser = (Patient) session.getAttribute("loggedInUser");
+        User loggedInUser = (User) session.getAttribute("loggedInUser");
         if (loggedInUser == null) {
-            model.addAttribute("form", new PatientForm());
+            model.addAttribute("form", new UserForm());
             model.addAttribute("needToSignIn", true);
             return "loginForm";
         }
-        Patient patient = patientService.findPatient(loggedInUser.getId());
+        User user = userService.findUser(loggedInUser.getId());
 
         List<ReserveDto> reserveDtos = new ArrayList<>();
-        List<Reserve> reserves = patient.getReserves();
+        List<Reserve> reserves = user.getReserves();
 
         //reserves에서 form에서 넘어온 status와 같은 reserve만 가져와 dto로 넘김
         for (Reserve reserve : reserves) {

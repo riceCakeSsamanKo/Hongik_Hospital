@@ -34,7 +34,7 @@
             </thead>
             <tbody>
             <tr th:each="reserve : ${reserves}">
-                <td th:text="${reserve.patient.name}"></td>
+                <td th:text="${reserve.user.name}"></td>
                 <td th:text="${reserve.department.name}"></td>
                 <td th:text="${reserve.doctor.name}"></td>
                 <td th:text="${reserve.reserveDate}"></td>

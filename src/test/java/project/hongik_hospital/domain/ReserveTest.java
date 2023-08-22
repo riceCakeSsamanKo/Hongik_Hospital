@@ -25,8 +25,8 @@ class ReserveTest {
     @Autowired
     EntityManager em;
 
-    Patient patient1 = new Patient("김환자", 30, MALE);
-    Patient patient2 = new Patient("박환자", 35, MALE);
+    User user1 = new User("김환자", 30, MALE);
+    User user2 = new User("박환자", 35, MALE);
 
     Address hospitalAddress1 = new Address("서울", "홍대거리", "12345");
     Address hospitalAddress2 = new Address("경기", "수내거리", "11111");
@@ -47,7 +47,7 @@ class ReserveTest {
         Hospital hospital = new Hospital("참조은병원", hospitalAddress1, department1);
 
         //then
-        assertThrows(IllegalStateException.class, ()->Reserve.createReserve(patient1, doctor1, now(), treatmentDate1));
+        assertThrows(IllegalStateException.class, ()->Reserve.createReserve(user1, doctor1, now(), treatmentDate1));
     }
 
     @Test
@@ -56,7 +56,7 @@ class ReserveTest {
         department1.addDoctor(doctor1);
 
         //then
-        assertThrows(IllegalStateException.class, () ->Reserve.createReserve(patient1, doctor1, now(), treatmentDate1));
+        assertThrows(IllegalStateException.class, () ->Reserve.createReserve(user1, doctor1, now(), treatmentDate1));
     }
     @Test
     public void reserveDocSameTime() throws Exception{
@@ -66,10 +66,10 @@ class ReserveTest {
         Hospital hospital = new Hospital("참조은병원", hospitalAddress1, department1);
 
         //when
-        Reserve.createReserve(patient2, doctor, now(), treatmentDate1);
+        Reserve.createReserve(user2, doctor, now(), treatmentDate1);
 
         //then (의사가 동일한 예약 시간을 가지게 된다면 오류 발생)
-        assertThrows(IllegalStateException.class,()->Reserve.createReserve(patient1, doctor, now(), treatmentDate1));
+        assertThrows(IllegalStateException.class,()->Reserve.createReserve(user1, doctor, now(), treatmentDate1));
 
     }
 
@@ -78,7 +78,7 @@ class ReserveTest {
         //given
         department1.addDoctor(doctor1);
         Hospital hospital = new Hospital("참조은병원", hospitalAddress1, department1);
-        Reserve reserve = Reserve.createReserve(patient1, doctor1, now(), treatmentDate1);
+        Reserve reserve = Reserve.createReserve(user1, doctor1, now(), treatmentDate1);
 
         //when
         reserve.cancel();
@@ -93,7 +93,7 @@ class ReserveTest {
         //given
         department1.addDoctor(doctor1);
         Hospital hospital = new Hospital("참조은병원", hospitalAddress1, department1);
-        Reserve reserve = Reserve.createReserve(patient1, doctor1, now(), treatmentDate1);
+        Reserve reserve = Reserve.createReserve(user1, doctor1, now(), treatmentDate1);
 
         //when
         reserve.complete(10000);

@@ -35,8 +35,8 @@ public class ReserveService {
         return reserveRepository.findAll();
     }
     @Transactional(readOnly = true)
-    public List<Reserve> findReserves(String patientName) {
-        return reserveRepository.findByPatientName(patientName);
+    public List<Reserve> findReserves(String userName) {
+        return reserveRepository.findByUserName(userName);
     }
     @Transactional(readOnly = true)
     public List<Reserve> findReserves(ReserveStatus reserveStatus) {

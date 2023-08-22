@@ -8,7 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 import project.hongik_hospital.domain.GenderType;
-import project.hongik_hospital.domain.Patient;
+import project.hongik_hospital.domain.User;
 
 import javax.persistence.EntityManager;
 
@@ -19,47 +19,47 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 @RunWith(SpringRunner.class)
 @Transactional
-class PatientServiceTest {
+class UserServiceTest {
     @Autowired
-    PatientService patientService;
+    UserService userService;
     @Autowired
     EntityManager em;
 
     @BeforeEach
     public void each() {
-        Patient patient1 = new Patient("patient", 10, GenderType.MALE);
-        Patient patient2 = new Patient("patient", 20, GenderType.FEMALE);
-        patient2.setLogIn("id","pw");
+        User user1 = new User("user", 10, GenderType.MALE);
+        User user2 = new User("user", 20, GenderType.FEMALE);
+        user2.setLogIn("id","pw");
 
-        patientService.join(patient1);
-        patientService.join(patient2);
+        userService.join(user1);
+        userService.join(user2);
     }
 
     @Test
     public void remove() throws Exception{
         //given
-        List<Patient> findPatients = patientService.findPatients("patient");
-        Patient patient1 = findPatients.get(0);
-        Patient patient2 = findPatients.get(1);
+        List<User> findUsers = userService.findUsers("user");
+        User user1 = findUsers.get(0);
+        User user2 = findUsers.get(1);
 
         //when
-        boolean bool1 = patientService.removePatient(patient1);
-        boolean bool2 = patientService.removePatient("id", "pw");
-        boolean bool3 = patientService.removePatient(patient1);  // 또 제거한 경우 false
+        boolean bool1 = userService.removeUser(user1);
+        boolean bool2 = userService.removeUser("id", "pw");
+        boolean bool3 = userService.removeUser(user1);  // 또 제거한 경우 false
 
         //then
         assertEquals(bool1, true);
         assertEquals(bool2, true);
         assertEquals(bool3, false);
-        assertEquals(patientService.findPatients("patient").size(),0);
+        assertEquals(userService.findUsers("user").size(),0);
     }
     @Test
     public void dirtyCheck() throws Exception{
         //given
-        Patient patient = patientService.findPatient(1L);
+        User user = userService.findUser(1L);
 
         //when
-        patient.setAge(12314124);
+        user.setAge(12314124);
         //then
 
     }
