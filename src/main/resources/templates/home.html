@@ -11,6 +11,9 @@
         <h1>HONGIK HOSPITAL</h1>
         <!-- 수정 시작 -->
         <div class="d-flex justify-content-end">
+            <a href="/admin/home" th:if="${isAdmin}">운영자 페이지</a>
+        </div>
+        <div class="d-flex justify-content-end">
             <p>
                 <span th:if="${loggedIn}">
                     <a href="/user/logout">로그아웃</a>
@@ -20,9 +23,6 @@
                     <a href="/user/new">회원 가입</a>
                 </span>
             </p>
-        </div>
-        <div class="d-flex justify-content-end">
-            <a href="/admin/home" th:if="${isAdmin}">운영자 페이지</a>
         </div>
         <!-- 수정 끝 -->
         <p class="lead">고객 기능</p>
