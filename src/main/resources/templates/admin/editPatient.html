@@ -1,0 +1,45 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header">
+    <title>Admin</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+<div class="container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+    <div class="jumbotron">
+        <h1>User Information</h1>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>이름</th>
+                <th>나이</th>
+                <th>성별</th>
+                <th>수정</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="user : ${users}">
+                <td>
+                    <span th:text="${user.name}"></span>
+                    <!-- Display name if not in edit mode -->
+                    <!-- Display input field if in edit mode -->
+                </td>
+                <td>
+                    <span th:text="${user.age}"></span>
+                </td>
+                <td>
+                    <span th:text="${user.gender}"></span>
+                </td>
+                <td>
+                    <a th:href="@{'/user/' + ${user.userId} + '/edit'}">Edit</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <a href="/admin/home" class="btn btn-primary" style="float: right;">돌아가기</a>
+    <div th:replace="fragments/footer :: footer"/>
+</div>
+</body>
+</html>

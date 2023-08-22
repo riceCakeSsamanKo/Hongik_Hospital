@@ -5,11 +5,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import project.hongik_hospital.domain.AccountType;
 import project.hongik_hospital.domain.GenderType;
 import project.hongik_hospital.domain.User;
 import project.hongik_hospital.form.UserForm;
@@ -18,10 +16,12 @@ import project.hongik_hospital.service.UserService;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
-import static java.lang.Integer.*;
-import static java.lang.Integer.valueOf;
+import static java.lang.Integer.parseInt;
+import static project.hongik_hospital.domain.AccountType.ADMIN;
 
 @Controller
 @Slf4j
@@ -89,9 +89,9 @@ public class UserController {
         // 사용자 정보를 세션에 저장
         session.setAttribute("loggedInUser", user);
 
-        if (user.getAccountType() == AccountType.ADMIN) {
+        if (user.getAccountType() == ADMIN) {
             // 운영자 전용 페이지로 이동
-            return "admin/home";
+            return "redirect:/admin/home";
         }
 
         log.info("Logged in: " + user.getName());
@@ -146,20 +146,26 @@ public class UserController {
     }
 
     @PostMapping("/user/{userId}/edit")
-    public String updateUserInfo(@PathVariable Long userId, @Valid UserForm form) {
+    public String updateUserInfo(@PathVariable Long userId, @Valid UserForm form, HttpSession session) {
 
         // 로그인한 회원 조회
-        User loggedInUser = userService.findUser(userId);
-        System.out.println("loggedInUser = " + loggedInUser);
+        User user = userService.findUser(userId);
+        System.out.println("loggedInUser = " + user);
 
         // form으로 새롭게 가져온 데이터
-        String loginId = loggedInUser.getLogIn().getLogin_id();  //id는 변경하지 않음
+        String loginId = user.getLogIn().getLogin_id();  //id는 변경하지 않음
         String loginPw = form.getLogin_pw();
         String name = form.getName();
         int age = parseInt(form.getAge());
         GenderType gender = form.getGender();
 
         userService.update(userId, loginId, loginPw, name, age, gender);
+
+        // 로그인한 유저가 운영자라면 admin 홈페이지로 이동
+        User loggedInUser = (User) session.getAttribute("loggedInUser");
+        if (loggedInUser.getAccountType() == ADMIN) {
+            return "redirect:/admin/edit/user";
+        }
 
         return "redirect:/";
     }
@@ -194,5 +200,15 @@ public class UserController {
 
         return "redirect:/";
     }
+
+    @GetMapping("/admin/edit/user")
+    public String editUserInfo(Model model) {
+        List<User> users = userRepository.findAll();
+        List<UserForm> userForms = users.stream().map(u -> new UserForm(u)).collect(Collectors.toList());
+
+        model.addAttribute("users", userForms);
+        return "admin/editPatient";
+    }
+
 }
 

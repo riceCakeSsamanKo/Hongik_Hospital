@@ -1,20 +1,24 @@
 package project.hongik_hospital.form;
 
+import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import project.hongik_hospital.domain.AccountType;
 import project.hongik_hospital.domain.GenderType;
+import project.hongik_hospital.domain.User;
 
 import javax.persistence.Enumerated;
 import javax.validation.constraints.NotEmpty;
 
 import static javax.persistence.EnumType.STRING;
 
-@Getter
-@Setter
+@Data
+@NoArgsConstructor
 public class UserForm {
 
-    private Long userId;
+    private Long userId;  //기본키
+    
     private String login_id;
 
     @NotEmpty(message = "비밀번호는 필수입니다")
@@ -31,4 +35,16 @@ public class UserForm {
 
     @Enumerated(value = STRING)
     private AccountType accountType;
+
+    private boolean isEdited = false;  //수정된 경우 true로 변경
+
+    public UserForm(User user) {
+        this.userId = user.getId();
+        this.login_id = user.getLogIn().getLogin_id();
+        this.login_pw = user.getLogIn().getLogin_pw();
+        this.name = user.getName();
+        this.age = String.valueOf(user.getAge());
+        this.gender = user.getGender();
+        this.accountType = user.getAccountType();
+    }
 }
