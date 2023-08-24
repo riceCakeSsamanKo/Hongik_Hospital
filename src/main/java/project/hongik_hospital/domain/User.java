@@ -15,6 +15,7 @@ import static project.hongik_hospital.domain.AccountType.*;
 @Entity
 @Getter
 @NoArgsConstructor(access = PROTECTED)
+@Table(name = "UserTable")  //User는 h2 예약어
 public class User {
 
     @Id @GeneratedValue
@@ -26,8 +27,8 @@ public class User {
 
     @Enumerated(value = STRING)
     private GenderType gender;
-    @Enumerated(value = STRING)  //default는 USER
-    private AccountType accountType = USER;
+    @Enumerated(value = STRING)  //default는 USER, 운영자는 ADMIN
+    private AccountType accountType;
 
     @Embedded
     private LogInInformation logIn;
@@ -40,6 +41,7 @@ public class User {
         this.name = name;
         this.age = age;
         this.gender = gender;
+        this.accountType = USER;
     }
 
     // setter

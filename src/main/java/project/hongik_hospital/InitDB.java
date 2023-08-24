@@ -81,12 +81,12 @@ public class InitDB {
 
         }
         void adminInit() {
-            User admin1 = new User("관리자1", 23, GenderType.MALE);
+            User admin1 = new User("관리자1", 23, MALE);
             admin1.setLogIn("admin", "1111");
             admin1.setAccountType(ADMIN);
             userService.join(admin1);
 
-            User admin2 = new User("관리자2", 36, GenderType.MALE);
+            User admin2 = new User("관리자2", 36, MALE);
             admin2.setLogIn("god", "kingOfWebSite");
             admin2.setAccountType(ADMIN);
             userService.join(admin2);
