@@ -43,6 +43,7 @@ public class HospitalController {
         Address address = hospital.getAddress();
         model.addAttribute("address", address);
 
+        log.info("hospital address information");
         return "hospital/addressInfo";
     }
 
@@ -52,6 +53,8 @@ public class HospitalController {
         List<Department> departments = hospital.getDepartments();
 
         model.addAttribute("departments", departments);
+
+        log.info("hospital department information");
 
         return "hospital/departmentInfo";
     }

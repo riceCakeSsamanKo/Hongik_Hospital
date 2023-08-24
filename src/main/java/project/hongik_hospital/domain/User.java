@@ -15,7 +15,7 @@ import static project.hongik_hospital.domain.AccountType.*;
 @Entity
 @Getter
 @NoArgsConstructor(access = PROTECTED)
-@Table(name = "UserTable")  //User는 h2 예약어
+@Table(name = "Users")  //User는 h2 예약어
 public class User {
 
     @Id @GeneratedValue

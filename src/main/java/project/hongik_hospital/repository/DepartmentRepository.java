@@ -1,14 +1,17 @@
 package project.hongik_hospital.repository;
 
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import project.hongik_hospital.domain.Department;
-import project.hongik_hospital.domain.User;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
+@Transactional //따로 서비스 안만들거라 여기다가 @Transactional 선언
 public class DepartmentRepository {
     @PersistenceContext
     EntityManager em;
@@ -23,16 +26,35 @@ public class DepartmentRepository {
 
     public List<Department> findAll() {
         return em.createQuery("select d from Department d " +
-                        "join fetch d.hospital" ,Department.class)
+                        "join fetch d.hospital", Department.class)
                 .getResultList();
     }
 
-    public List<Department> findByName(String name) {
-        return em.createQuery("select d from Department d " +
-                        "join fetch d.hospital " +
-                        "where d.name = :name",
-                        Department.class)
-                .setParameter("name", name)
-                .getResultList();
+    public Optional<Department> findByName(String name) {
+        try {
+            Department result = em.createQuery("select d from Department d " +
+                            "join fetch d.hospital " +
+                            "where d.name = :name", Department.class)
+                    .setParameter("name", name)
+                    .getSingleResult();
+
+            return Optional.ofNullable(result);
+        } catch (NoResultException e) {
+            return Optional.empty();
+        }
+    }
+
+    public Optional<Department> findByPhoneNumber(String phoneNumber) {
+        try {
+            Department result = em.createQuery("select d from Department d " +
+                            "join fetch d.hospital " +
+                            "where d.phoneNumber = :phoneNumber", Department.class)
+                    .setParameter("phoneNumber", phoneNumber)
+                    .getSingleResult();
+
+            return Optional.ofNullable(result);
+        } catch (NoResultException e) {
+            return Optional.empty();
+        }
     }
 }

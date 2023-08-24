@@ -2,21 +2,22 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/header :: header">
     <title>User Information</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 </head>
 <body>
 <div class="container">
-    <div th:replace="fragments/bodyHeader :: bodyHeader" />
+    <div th:replace="fragments/bodyHeader :: bodyHeader"/>
     <div class="jumbotron">
         <h1>User Information</h1>
-        <p>
+        <br>
+        <div>
             <p><strong th:text="'Name: '"></strong> <span th:text="${user.name}"></span></p>
             <p><strong th:text="'Age: '"></strong> <span th:text="${user.age}"></span></p>
             <p><strong th:text="'Gender: '"></strong> <span th:text="${user.gender}"></span></p>
-        </p>
+        </div>
         <a class="btn btn-primary" th:href="@{/user/{id}/edit (id=${user.id})}" role="button">수정하기</a>
     </div>
-    <div th:replace="fragments/footer :: footer" />
+    <div th:replace="fragments/footer :: footer"/>
 </div> <!-- /container -->
 </body>
 </html>

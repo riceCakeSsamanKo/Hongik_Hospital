@@ -8,6 +8,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import project.hongik_hospital.domain.GenderType;
 import project.hongik_hospital.domain.User;
 import project.hongik_hospital.form.UserForm;
@@ -146,11 +147,10 @@ public class UserController {
     }
 
     @PostMapping("/user/{userId}/edit")
-    public String updateUserInfo(@PathVariable Long userId, @Valid UserForm form, HttpSession session) {
+    public String updateUserInfo(@PathVariable Long userId, @Valid UserForm form) {
 
         // 로그인한 회원 조회
         User user = userService.findUser(userId);
-        System.out.println("loggedInUser = " + user);
 
         // form으로 새롭게 가져온 데이터
         String loginId = user.getLogIn().getLogin_id();  //id는 변경하지 않음
@@ -160,12 +160,6 @@ public class UserController {
         GenderType gender = form.getGender();
 
         userService.update(userId, loginId, loginPw, name, age, gender);
-
-        // 로그인한 유저가 운영자라면 admin 홈페이지로 이동
-        User loggedInUser = (User) session.getAttribute("loggedInUser");
-        if (loggedInUser.getAccountType() == ADMIN) {
-            return "redirect:/admin/edit/user";
-        }
 
         return "redirect:/";
     }
@@ -201,14 +195,41 @@ public class UserController {
         return "redirect:/";
     }
 
-    @GetMapping("/admin/edit/user")
+    @RequestMapping("/admin/edit/user")
     public String editUserInfo(Model model) {
         List<User> users = userRepository.findAll();
         List<UserForm> userForms = users.stream().map(u -> new UserForm(u)).collect(Collectors.toList());
 
         model.addAttribute("users", userForms);
-        return "admin/editPatient";
+        return "admin/editUser";
     }
 
+    @GetMapping("/admin/edit/user/{userId}")
+    public String getUserInfo(@PathVariable Long userId, Model model) {
+        User user = userService.findUser(userId);
+
+        model.addAttribute("user", user);
+        model.addAttribute("form", new UserForm());
+
+        log.info("Change info: " + user.getLogIn().getLogin_id());
+
+        return "admin/editUserInfo";
+    }
+
+    @PostMapping("/admin/edit/user/{userId}")
+    public String postUserInfo(@Valid UserForm form, @PathVariable Long userId) {
+        User user = userService.findUser(userId);
+
+        // form으로 새롭게 가져온 데이터
+        String loginId = user.getLogIn().getLogin_id();  //id는 변경하지 않음
+        String loginPw = form.getLogin_pw();
+        String name = form.getName();
+        int age = parseInt(form.getAge());
+        GenderType gender = form.getGender();
+
+        userService.update(userId, loginId, loginPw, name, age, gender);
+
+        return "redirect:/admin/edit/user";
+    }
 }
 

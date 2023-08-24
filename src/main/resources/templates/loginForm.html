@@ -26,9 +26,9 @@
         </div>
         <p th:if="${isSignInFail}" class="text-danger">없는 아이디이거나 비밀번호입니다.</p>
         <p th:if="${needToSignIn}" class="text-danger">로그인이 필요한 서비스입니다.</p>
+        <br>
         <button type="submit" class="btn btn-primary">로그인</button>
     </form>
-    <br/>
     <div th:replace="fragments/footer :: footer"/>
 </div> <!-- /container -->
 <script>

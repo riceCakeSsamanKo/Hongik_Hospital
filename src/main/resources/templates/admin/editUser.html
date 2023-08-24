@@ -9,6 +9,7 @@
     <div th:replace="fragments/bodyHeader :: bodyHeader"/>
     <div class="jumbotron">
         <h1>User Information</h1>
+        <br><br>
         <table class="table table-striped">
             <thead>
             <tr>
@@ -32,7 +33,7 @@
                     <span th:text="${user.gender}"></span>
                 </td>
                 <td>
-                    <a th:href="@{'/user/' + ${user.userId} + '/edit'}">Edit</a>
+                    <a th:href="@{'/admin'+ '/edit' + '/user/' +  ${user.userId}}">Edit</a>
                 </td>
             </tr>
             </tbody>

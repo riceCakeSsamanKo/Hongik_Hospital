@@ -42,6 +42,8 @@ public class HomeController {
             model.addAttribute("needToSignIn", true);
             return "loginForm";
         }
+
+        log.info("admin home: "+loggedInUser.getLogIn().getLogin_id());
         return "admin/home";
     }
 }

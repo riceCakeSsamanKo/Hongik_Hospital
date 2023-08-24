@@ -10,8 +10,7 @@
     <div class="jumbotron">
         <h1>Change User Information</h1>
         <br><br>
-        <form th:object="${form}" th:action="@{/user/{id}/edit (id=${form.userId})}" method="post"
-              onsubmit="return validateForm()">
+        <form th:object="${form}"  method="post" onsubmit="return validateForm()">
             <div class="form-group">
                 <p><strong th:text="'ID: '"></strong> <span th:text="${user.logIn.login_id}"></span></p>
                 <br>
