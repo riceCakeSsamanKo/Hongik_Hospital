@@ -46,6 +46,8 @@ public class DepartmentService {
         departmentRepository.remove(department);
     }
 
+    /** 업데이트 로직 **/
+    // 더티 체킹으로 업데이트 로직 구현
     public void update(Long departmentId, String name, String phoneNumber) {
         Department department = departmentRepository.findOne(departmentId);
 

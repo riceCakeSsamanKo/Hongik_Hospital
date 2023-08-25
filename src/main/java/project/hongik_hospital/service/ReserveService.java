@@ -63,6 +63,8 @@ public class ReserveService {
         reserveRepository.findOne(reserveId).complete(fee);
     }
 
+    /** 업데이트 로직 **/
+    // 더티 체킹으로 업데이트 로직 구현
     public void updateDepartment(Long reserveId, Department department) {
         Reserve reserve = reserveRepository.findOne(reserveId);
         reserve.setDepartment(department);
