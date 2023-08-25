@@ -1,0 +1,44 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header">
+    <title>Admin</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+<div class="container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+    <div class="jumbotron">
+        <h1>Remove Department</h1>
+        <br><br>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>이름</th>
+                <th>나이</th>
+                <th>수정</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="department : ${departments}">
+                <td>
+                    <span th:text="${department.name}"></span>
+                </td>
+                <td>
+                    <span th:text="${department.phoneNumber}"></span>
+                </td>
+                <td>
+                    <form id="delete_form" th:action="@{/admin/edit/department/delete/{id}(id=${department.id})}" method="post">
+                        <input type="hidden" name="_method" value="delete"/>
+                        <a onclick="if (confirm('정말로 삭제하시겠습니까?')) document.getElementById('delete_form').submit();"
+                           class="btn btn-danger">삭제</a>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <a href="/admin/edit/department" class="btn btn-primary" style="float: right;">돌아가기</a>
+    <div th:replace="fragments/footer :: footer"/>
+</div>
+</body>
+</html>

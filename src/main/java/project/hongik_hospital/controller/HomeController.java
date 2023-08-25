@@ -15,7 +15,6 @@ import static project.hongik_hospital.domain.AccountType.*;
 
 @Controller
 @Slf4j // logger 생성: Logger log = (Logger) LoggerFactory.getLogger(getClass());
-
 public class HomeController {
 
     @GetMapping("/")

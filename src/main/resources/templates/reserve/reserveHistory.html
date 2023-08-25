@@ -8,8 +8,8 @@
         <div>
             <form th:object="${form}" class="form-inline">
                 <div class="form-group mx-sm-1 mb-2">
+                    <h4>예약 상태</h4>
                     <select th:field="*{status}" class="form-control">
-                        <option value="">예약상태</option>
                         <option th:each=
                                         "status : ${T(project.hongik_hospital.domain.ReserveStatus).values()}"
                                 th:value="${status}"
@@ -20,6 +20,7 @@
                 <button type="submit" class="btn btn-primary mb-2">검색</button>
             </form>
         </div>
+        <br>
         <table class="table table-striped">
             <thead>
             <tr>
@@ -27,7 +28,6 @@
                 <th>진료과</th>
                 <th>담당 의사명</th>
                 <th>예약일</th>
-                <th>진료일</th>
                 <th>예약 상태</th>
                 <th></th>
             </tr>
@@ -38,7 +38,6 @@
                 <td th:text="${reserve.department.name}"></td>
                 <td th:text="${reserve.doctor.name}"></td>
                 <td th:text="${reserve.reserveDate}"></td>
-                <td th:text="${reserve.treatmentDate}"></td>
                 <td th:text="${reserve.reserveStatus}"></td>
                 <td>
                     <a th:if="${reserve.reserveStatus.name() == 'RESERVE'}" href="#"

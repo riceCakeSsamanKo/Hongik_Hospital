@@ -2,6 +2,7 @@ package project.hongik_hospital.domain;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -28,7 +29,7 @@ public class Doctor {
     @OneToMany(mappedBy = "doctor", cascade = ALL, orphanRemoval = true)
     private List<TreatmentDate> treatmentDates = new ArrayList<>();
 
-    @ManyToOne(fetch = LAZY)
+    @ManyToOne(fetch = LAZY, cascade = ALL)
     @JoinColumn(name = "department_id")
     private Department department;
 
@@ -47,7 +48,7 @@ public class Doctor {
         this.career = career;
     }
 
-    protected void setDepartment(Department department) {
+    public void setDepartment(Department department) {
         this.department = department;
     }
 

@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-@Transactional //따로 서비스 안만들거라 여기다가 @Transactional 선언
 public class DepartmentRepository {
     @PersistenceContext
     EntityManager em;
@@ -20,16 +19,19 @@ public class DepartmentRepository {
         em.persist(department);
     }
 
+    @Transactional(readOnly = true)
     public Department findOne(Long departmentId) {
         return em.find(Department.class, departmentId);
     }
 
+    @Transactional(readOnly = true)
     public List<Department> findAll() {
         return em.createQuery("select d from Department d " +
                         "join fetch d.hospital", Department.class)
                 .getResultList();
     }
 
+    @Transactional(readOnly = true)
     public Optional<Department> findByName(String name) {
         try {
             Department result = em.createQuery("select d from Department d " +
@@ -44,6 +46,7 @@ public class DepartmentRepository {
         }
     }
 
+    @Transactional(readOnly = true)
     public Optional<Department> findByPhoneNumber(String phoneNumber) {
         try {
             Department result = em.createQuery("select d from Department d " +
@@ -56,5 +59,12 @@ public class DepartmentRepository {
         } catch (NoResultException e) {
             return Optional.empty();
         }
+    }
+
+    public void remove(Department department) {
+        em.createQuery("delete from Department d " +
+                        "where d.id = :departmentId")
+                .setParameter("departmentId", department.getId())
+                .executeUpdate();
     }
 }

@@ -2,19 +2,26 @@ package project.hongik_hospital.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import project.hongik_hospital.domain.Department;
+import project.hongik_hospital.domain.Doctor;
 import project.hongik_hospital.domain.Hospital;
+import project.hongik_hospital.domain.Reserve;
 import project.hongik_hospital.form.DepartmentForm;
 import project.hongik_hospital.repository.DepartmentRepository;
+import project.hongik_hospital.service.DepartmentService;
+import project.hongik_hospital.service.DoctorService;
 import project.hongik_hospital.service.HospitalService;
+import project.hongik_hospital.service.ReserveService;
 
+import javax.persistence.EntityManager;
 import javax.validation.Valid;
+import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Controller
@@ -22,8 +29,11 @@ import java.util.Optional;
 @Slf4j
 public class DepartmentController {
 
-    private final DepartmentRepository departmentRepository;
+    private final DepartmentService departmentService;
     private final HospitalService hospitalService;
+    private final DoctorService doctorService;
+    private final ReserveService reserveService;
+    private final EntityManager em;
 
     @RequestMapping("/admin/edit/department")
     public String editDepartment() {
@@ -47,8 +57,8 @@ public class DepartmentController {
         String phoneNumber = form.getPhoneNumber();
 
         // 이미 존재하는 부서인지 확인
-        Optional<Department> findByName = departmentRepository.findByName(name);
-        Optional<Department> findByPhoneNumber = departmentRepository.findByPhoneNumber(phoneNumber);
+        Optional<Department> findByName = departmentService.findDepartmentByName(name);
+        Optional<Department> findByPhoneNumber = departmentService.findDepartmentByPhoneNumber(phoneNumber);
         if (findByName.isPresent() || findByPhoneNumber.isPresent()) {
             result.rejectValue("name", "invalid", "Department is already existed");
             result.rejectValue("phoneNumber", "invalid", "Department is already existed");
@@ -65,8 +75,41 @@ public class DepartmentController {
         Hospital hospital = hospitalService.findHospitals().get(0);
         hospital.addDepartment(department);
 
-        departmentRepository.save(department);
+        departmentService.join(department);
 
         return "department/editDepartment";
+    }
+
+    @RequestMapping("/admin/edit/department/delete")
+    public String deleteDepartment(Model model) {
+        List<Department> departments = departmentService.findDepartments();
+        model.addAttribute("departments", departments);
+
+        return "department/deleteDepartment";
+    }
+
+    @DeleteMapping("/admin/edit/department/delete/{departmentId}")
+    public String deleteDepartmentDelete(@PathVariable Long departmentId) {
+
+        Department department = departmentService.findDepartment(departmentId);
+
+        // DOCTOR와 RESERVE 연관관계 해제
+        List<Doctor> doctors = doctorService.findDoctors();
+        for (Doctor doctor : doctors) {
+            if (doctor.getDepartment().getId().compareTo(departmentId) == 0) {
+                doctor.setDepartment(null);
+            }
+        }
+        
+        List<Reserve> reserves = reserveService.findReserves();
+        for (Reserve reserve : reserves) {
+            if (reserve.getDepartment().getId().compareTo(departmentId) == 0) {
+                reserve.setDepartment(null);
+            }
+        }
+
+        departmentService.removeDepartment(department);
+
+        return "redirect:/admin/edit/department/delete";
     }
 }

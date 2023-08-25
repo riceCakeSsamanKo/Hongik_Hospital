@@ -53,4 +53,15 @@ public class ReserveRepository {
                 .setParameter("status", status)
                 .getResultList();
     }
+
+    public List<Reserve> findByDepartment(Long departmentId) {
+        return em.createQuery("select r from Reserve r " +
+                        "join fetch r.user p " +
+                        "join fetch r.doctor d " +
+                        "join fetch r.department dp " +
+                        "join fetch r.hospital h " +
+                        "where r.department.id = :departmentId",Reserve.class)
+                .setParameter("departmentId", departmentId)
+                .getResultList();
+    }
 }

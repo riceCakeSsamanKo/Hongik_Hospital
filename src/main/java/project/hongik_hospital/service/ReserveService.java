@@ -43,6 +43,10 @@ public class ReserveService {
         return reserveRepository.findByStatus(reserveStatus);
     }
 
+    public List<Reserve> findReservesByDepartment(Long departmentId) {
+        return reserveRepository.findByDepartment(departmentId);
+    }
+
     public void cancel(Long reserveId) {
         Reserve reserve = reserveRepository.findOne(reserveId);
         TreatmentDate treatmentDate = reserve.getTreatmentDate();
@@ -58,7 +62,7 @@ public class ReserveService {
         reserve.cancel();
     }
 
-    public void complete(Long reserveId,int fee) {
+    public void complete(Long reserveId, int fee) {
         reserveRepository.findOne(reserveId).complete(fee);
     }
 }
