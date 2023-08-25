@@ -19,19 +19,16 @@ public class DepartmentRepository {
         em.persist(department);
     }
 
-    @Transactional(readOnly = true)
     public Department findOne(Long departmentId) {
         return em.find(Department.class, departmentId);
     }
 
-    @Transactional(readOnly = true)
     public List<Department> findAll() {
         return em.createQuery("select d from Department d " +
                         "join fetch d.hospital", Department.class)
                 .getResultList();
     }
 
-    @Transactional(readOnly = true)
     public Optional<Department> findByName(String name) {
         try {
             Department result = em.createQuery("select d from Department d " +
@@ -46,7 +43,6 @@ public class DepartmentRepository {
         }
     }
 
-    @Transactional(readOnly = true)
     public Optional<Department> findByPhoneNumber(String phoneNumber) {
         try {
             Department result = em.createQuery("select d from Department d " +

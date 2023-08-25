@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +14,8 @@ import project.hongik_hospital.domain.Hospital;
 import project.hongik_hospital.domain.Reserve;
 import project.hongik_hospital.form.DepartmentForm;
 import project.hongik_hospital.repository.DepartmentRepository;
+import project.hongik_hospital.repository.update.DoctorUpdateRepository;
+import project.hongik_hospital.repository.update.ReserveUpdateRepository;
 import project.hongik_hospital.service.DepartmentService;
 import project.hongik_hospital.service.DoctorService;
 import project.hongik_hospital.service.HospitalService;
@@ -33,7 +36,8 @@ public class DepartmentController {
     private final HospitalService hospitalService;
     private final DoctorService doctorService;
     private final ReserveService reserveService;
-    private final EntityManager em;
+    private final DoctorUpdateRepository doctorUpdateRepository;
+    private final ReserveUpdateRepository reserveUpdateRepository;
 
     @RequestMapping("/admin/edit/department")
     public String editDepartment() {
@@ -80,31 +84,34 @@ public class DepartmentController {
         return "department/editDepartment";
     }
 
-    @RequestMapping("/admin/edit/department/delete")
+    @GetMapping("/admin/edit/department/delete")
     public String deleteDepartment(Model model) {
         List<Department> departments = departmentService.findDepartments();
         model.addAttribute("departments", departments);
+        model.addAttribute("form", new DepartmentForm());
 
         return "department/deleteDepartment";
     }
 
-    @DeleteMapping("/admin/edit/department/delete/{departmentId}")
-    public String deleteDepartmentDelete(@PathVariable Long departmentId) {
+    @PostMapping("/admin/edit/department/delete")
+    public String deleteDepartmentDelete(DepartmentForm form) {
 
-        Department department = departmentService.findDepartment(departmentId);
+        System.out.println("form.getId= " + form.getDepartmentId());
+        Department department = departmentService.findDepartment(form.getDepartmentId());
+        System.out.println("department.getId() = " + department.getId());
 
         // DOCTOR와 RESERVE 연관관계 해제
         List<Doctor> doctors = doctorService.findDoctors();
         for (Doctor doctor : doctors) {
-            if (doctor.getDepartment().getId().compareTo(departmentId) == 0) {
-                doctor.setDepartment(null);
+            if (doctor.getDepartment().getId().compareTo(department.getId()) == 0) {
+                doctorUpdateRepository.updateDepartment(doctor.getId(), null);
             }
         }
-        
+
         List<Reserve> reserves = reserveService.findReserves();
         for (Reserve reserve : reserves) {
-            if (reserve.getDepartment().getId().compareTo(departmentId) == 0) {
-                reserve.setDepartment(null);
+            if (reserve.getDepartment().getId().compareTo(department.getId()) == 0) {
+                reserveUpdateRepository.updateDepartment(reserve.getId(),null);
             }
         }
 
