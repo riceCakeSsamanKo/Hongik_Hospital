@@ -14,8 +14,7 @@ import project.hongik_hospital.domain.Hospital;
 import project.hongik_hospital.domain.Reserve;
 import project.hongik_hospital.form.DepartmentForm;
 import project.hongik_hospital.repository.DepartmentRepository;
-import project.hongik_hospital.repository.update.DoctorUpdateRepository;
-import project.hongik_hospital.repository.update.ReserveUpdateRepository;
+
 import project.hongik_hospital.service.DepartmentService;
 import project.hongik_hospital.service.DoctorService;
 import project.hongik_hospital.service.HospitalService;
@@ -36,8 +35,6 @@ public class DepartmentController {
     private final HospitalService hospitalService;
     private final DoctorService doctorService;
     private final ReserveService reserveService;
-    private final DoctorUpdateRepository doctorUpdateRepository;
-    private final ReserveUpdateRepository reserveUpdateRepository;
 
     @RequestMapping("/admin/edit/department")
     public String editDepartment() {
@@ -104,14 +101,14 @@ public class DepartmentController {
         List<Doctor> doctors = doctorService.findDoctors();
         for (Doctor doctor : doctors) {
             if (doctor.getDepartment().getId().compareTo(department.getId()) == 0) {
-                doctorUpdateRepository.updateDepartment(doctor.getId(), null);
+                doctorService.updateDepartment(doctor.getId(),null);
             }
         }
 
         List<Reserve> reserves = reserveService.findReserves();
         for (Reserve reserve : reserves) {
             if (reserve.getDepartment().getId().compareTo(department.getId()) == 0) {
-                reserveUpdateRepository.updateDepartment(reserve.getId(), null);
+                reserveService.updateDepartment(reserve.getId(),null);
             }
         }
 

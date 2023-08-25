@@ -60,12 +60,4 @@ public class User {
     public void setAccountType(AccountType accountType) {
         this.accountType = accountType;
     }
-
-    // 비즈니스 로직
-    public void update(String loginId, String loginPw, String name, int age, GenderType gender) {
-        setLogIn(loginId, loginPw);
-        setName(name);
-        setAge(age);
-        setSex(gender);
-    }
 }

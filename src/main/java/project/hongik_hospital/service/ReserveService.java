@@ -3,10 +3,7 @@ package project.hongik_hospital.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import project.hongik_hospital.domain.Doctor;
-import project.hongik_hospital.domain.Reserve;
-import project.hongik_hospital.domain.ReserveStatus;
-import project.hongik_hospital.domain.TreatmentDate;
+import project.hongik_hospital.domain.*;
 import project.hongik_hospital.repository.DoctorRepository;
 import project.hongik_hospital.repository.ReserveRepository;
 import project.hongik_hospital.repository.TreatmentDateRepository;
@@ -64,5 +61,10 @@ public class ReserveService {
 
     public void complete(Long reserveId, int fee) {
         reserveRepository.findOne(reserveId).complete(fee);
+    }
+
+    public void updateDepartment(Long reserveId, Department department) {
+        Reserve reserve = reserveRepository.findOne(reserveId);
+        reserve.setDepartment(department);
     }
 }

@@ -3,6 +3,7 @@ package project.hongik_hospital.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import project.hongik_hospital.domain.Department;
 import project.hongik_hospital.domain.Doctor;
 import project.hongik_hospital.repository.DoctorRepository;
 
@@ -42,4 +43,22 @@ public class DoctorService {
         return doctorRepository.findByName(name);
     }
 
+
+    /** 업데이트 로직 **/
+    // 더티 체킹으로 업데이트 로직 구현
+    public void updateDepartment(Long doctorId, Department department) {
+        Doctor doctor = doctorRepository.findOne(doctorId);
+        doctor.setDepartment(department);
+    }
+    public void update(Long doctorId, String name, int career) {
+        Doctor doctor = doctorRepository.findOne(doctorId);
+        doctor.setName(name);
+        doctor.setCareer(career);
+    }
+    public void update(Long doctorId, String name, int career, Department department) {
+        Doctor doctor = doctorRepository.findOne(doctorId);
+        doctor.setName(name);
+        doctor.setCareer(career);
+        doctor.setDepartment(department);
+    }
 }

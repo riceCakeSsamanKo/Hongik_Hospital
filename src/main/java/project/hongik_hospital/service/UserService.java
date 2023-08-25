@@ -49,9 +49,15 @@ public class UserService {
         return userRepository.findByLogInfo(login_id);
     }
 
+    /** 업데이트 로직 **/
+    // 더티 체킹으로 업데이트 로직 구현
     public void update(Long id, String loginId, String loginPw, String name, int age, GenderType gender) {
         User user = userRepository.findOne(id);
-        user.update(loginId, loginPw, name, age, gender);
+
+        user.setName(name);
+        user.setLogIn(loginId, loginPw);
+        user.setAge(age);
+        user.setSex(gender);
     }
 
     public boolean removeUser(Long userId) {

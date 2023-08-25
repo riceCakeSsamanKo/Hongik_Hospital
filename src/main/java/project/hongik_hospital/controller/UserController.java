@@ -143,11 +143,11 @@ public class UserController {
         return "user/editInformation";
     }
 
-    @PatchMapping("/user/{userId}/edit") //부분 업데이트시에는 Patch, 전체 업데이트시에는 Put, 새로운 데이터 생성시에는 Post
+    @PostMapping("/user/{userId}/edit")
     public String updateUserInfo(@PathVariable Long userId, @Valid UserForm form) {
 
         // 로그인한 회원 조회
-        User user = userService.findUser(userId);
+        User user = userService.findUser(userId);  //user = 준영속 엔티티?
 
         // form으로 새롭게 가져온 데이터
         String loginId = user.getLogIn().getLogin_id();  //id는 변경하지 않음

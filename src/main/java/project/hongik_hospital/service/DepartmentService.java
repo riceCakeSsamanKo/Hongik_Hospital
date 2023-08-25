@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import project.hongik_hospital.domain.Department;
+import project.hongik_hospital.domain.Hospital;
 import project.hongik_hospital.repository.DepartmentRepository;
 
 import java.util.List;
@@ -12,7 +13,6 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-@Slf4j
 @Transactional
 public class DepartmentService {
 
@@ -44,5 +44,22 @@ public class DepartmentService {
 
     public void removeDepartment(Department department) {
         departmentRepository.remove(department);
+    }
+
+    public void update(Long departmentId, String name, String phoneNumber) {
+        Department department = departmentRepository.findOne(departmentId);
+
+        department.setName(name);
+        department.setPhoneNumber(phoneNumber);
+    }
+
+    public Department updateHospital(Long departmentId, String name, String phoneNumber, Hospital hospital) {
+
+        Department department = departmentRepository.findOne(departmentId);
+        department.setName(name);
+        department.setPhoneNumber(phoneNumber);
+        department.setHospital(hospital);
+
+        return department;
     }
 }
