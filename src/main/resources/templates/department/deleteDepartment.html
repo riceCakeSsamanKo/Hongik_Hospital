@@ -30,6 +30,7 @@
         </table>
 
         <form th:action="@{/admin/edit/department/delete}" th:object="${form}" method="post" id="reservationForm">
+            <input type="hidden" name="_method" value="delete"/>
             <!-- method = get으로 설정되어 있으므로 반환된 데이터가 GetMapping으로 전달됨.-->
             <div class="form-group">
                 <label for="department">부서:</label>

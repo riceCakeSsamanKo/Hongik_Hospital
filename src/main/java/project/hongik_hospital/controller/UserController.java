@@ -5,10 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import project.hongik_hospital.domain.GenderType;
 import project.hongik_hospital.domain.User;
 import project.hongik_hospital.form.UserForm;
@@ -146,7 +143,7 @@ public class UserController {
         return "user/editInformation";
     }
 
-    @PostMapping("/user/{userId}/edit")
+    @PatchMapping("/user/{userId}/edit") //부분 업데이트시에는 Patch, 전체 업데이트시에는 Put, 새로운 데이터 생성시에는 Post
     public String updateUserInfo(@PathVariable Long userId, @Valid UserForm form) {
 
         // 로그인한 회원 조회
@@ -176,7 +173,7 @@ public class UserController {
         return "user/deleteUser";
     }
 
-    @PostMapping("/user/delete")
+    @DeleteMapping("/user/delete")
     public String delete(HttpSession session, Model model) {
         User loggedInUser = (User) session.getAttribute("loggedInUser");
         if (loggedInUser == null) {

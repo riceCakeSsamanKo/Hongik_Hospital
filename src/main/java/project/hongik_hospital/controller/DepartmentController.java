@@ -90,15 +90,15 @@ public class DepartmentController {
         model.addAttribute("departments", departments);
         model.addAttribute("form", new DepartmentForm());
 
+        log.info("delete department");
+
         return "department/deleteDepartment";
     }
 
-    @PostMapping("/admin/edit/department/delete")
+    @DeleteMapping("/admin/edit/department/delete")
     public String deleteDepartmentDelete(DepartmentForm form) {
 
-        System.out.println("form.getId= " + form.getDepartmentId());
         Department department = departmentService.findDepartment(form.getDepartmentId());
-        System.out.println("department.getId() = " + department.getId());
 
         // DOCTOR와 RESERVE 연관관계 해제
         List<Doctor> doctors = doctorService.findDoctors();
@@ -111,7 +111,7 @@ public class DepartmentController {
         List<Reserve> reserves = reserveService.findReserves();
         for (Reserve reserve : reserves) {
             if (reserve.getDepartment().getId().compareTo(department.getId()) == 0) {
-                reserveUpdateRepository.updateDepartment(reserve.getId(),null);
+                reserveUpdateRepository.updateDepartment(reserve.getId(), null);
             }
         }
 
@@ -119,4 +119,9 @@ public class DepartmentController {
 
         return "redirect:/admin/edit/department/delete";
     }
+
+//    @GetMapping("/admin/edit/department/information")
+//    public String editDepartmentInformation(Model model) {
+//
+//    }
 }
