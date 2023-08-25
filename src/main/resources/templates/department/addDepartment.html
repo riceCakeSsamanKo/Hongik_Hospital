@@ -11,6 +11,7 @@
     <div th:replace="fragments/bodyHeader :: bodyHeader"/>
     <div class="jumbotron">
         <h1>Add Department</h1>
+        <br><br>
     </div>
     <form role="form" th:object="${form}" method="post">
         <div class="form-group">
@@ -31,6 +32,8 @@
         <br>
         <button type="submit" class="btn btn-primary">생성</button>
     </form>
+    <br>
+    <a href="/admin/edit/department" class="btn btn-primary" style="float: right;">돌아가기</a>
     <div th:replace="fragments/footer :: footer"/>
 </div> <!-- /container -->
 </body>

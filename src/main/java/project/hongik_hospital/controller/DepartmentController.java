@@ -101,14 +101,14 @@ public class DepartmentController {
         List<Doctor> doctors = doctorService.findDoctors();
         for (Doctor doctor : doctors) {
             if (doctor.getDepartment().getId().compareTo(department.getId()) == 0) {
-                doctorService.updateDepartment(doctor.getId(),null);
+                doctorService.updateDepartment(doctor.getId(),null);  /** 더티체킹을 통한 업데이트 */
             }
         }
 
         List<Reserve> reserves = reserveService.findReserves();
         for (Reserve reserve : reserves) {
             if (reserve.getDepartment().getId().compareTo(department.getId()) == 0) {
-                reserveService.updateDepartment(reserve.getId(),null);
+                reserveService.updateDepartment(reserve.getId(),null); /** 더티체킹을 통한 업데이트 */
             }
         }
 
