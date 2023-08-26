@@ -1,0 +1,45 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header"/>
+<style>
+    .fieldError {
+        border-color: #bd2130;
+    }
+</style>
+<body>
+<div class="container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+    <div class="jumbotron">
+        <h1>Add Department</h1>
+        <br><br>
+    </div>
+    <form role="form" th:object="${form}" method="post">
+        <div class="form-group">
+            <label th:for="name">이름</label>
+            <input type="text" th:field="*{name}" class="form-control"
+                   placeholder="이름을 입력하세요"
+                   th:class="${#fields.hasErrors('name')}? 'form-control fieldError' : 'form-control'">
+            <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}">잘못된 이름</p>
+        </div>
+        <div class="form-group">
+            <label th:for="name">경력</label>
+            <input type="text" th:field="*{career}" class="form-control"
+                   placeholder="경력을 입력하세요"
+                   th:class="${#fields.hasErrors('career')}? 'form-control fieldError' : 'form-control'">
+            <p th:if="${#fields.hasErrors('career')}" th:errors="*{career}">잘못된 경력</p>
+        </div>
+        <div class="form-group">
+            <label for="department">부서</label>
+            <select class="form-control" id="department" th:field="*{departmentId}">
+                <option th:each="dept : ${departments}" th:value="${dept.id}" th:text="${dept.name}"></option>
+            </select>
+        </div>
+        <br>
+        <button type="submit" class="btn btn-primary">생성</button>
+    </form>
+    <br>
+    <a href="/admin/edit/department" class="btn btn-primary" style="float: right;">돌아가기</a>
+    <div th:replace="fragments/footer :: footer"/>
+</div> <!-- /container -->
+</body>
+</html>

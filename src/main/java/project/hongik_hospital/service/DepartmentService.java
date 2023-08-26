@@ -32,7 +32,7 @@ public class DepartmentService {
         return departmentRepository.findByName(departmentName);
     }
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true) //뭔가 이 메서드 작동안하는 듯?
     public Optional<Department> findDepartmentByPhoneNumber(String phoneNumber) {
         return departmentRepository.findByPhoneNumber(phoneNumber);
     }

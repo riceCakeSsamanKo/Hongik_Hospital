@@ -19,5 +19,5 @@ public class HongikHospitalApplication {
 	@Bean
 	public HiddenHttpMethodFilter hiddenHttpMethodFilter() {
 		return new HiddenHttpMethodFilter();
-	}
+	}	
 }

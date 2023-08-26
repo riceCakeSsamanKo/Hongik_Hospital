@@ -1,0 +1,41 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header"/>
+<style>
+    .fieldError {
+        border-color: #bd2130;
+    }
+</style>
+<body>
+<div class="container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+    <div class="jumbotron">
+        <h1>Change Department Information</h1>
+        <br><br>
+    </div>
+    <form role="form" th:object="${form}" method="post">
+        <div class="form-group">
+            <label th:for="name">부서명</label>
+            <input type="text" th:field="*{name}" class="form-control"
+                   th:placeholder="${department.name}"
+                   th:class="${#fields.hasErrors('name')}? 'form-control fieldError' : 'form-control'">
+            <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}">잘못된 이름</p>
+        </div>
+        <div class="form-group">
+            <label th:for="name">전화번호</label>
+            <input type="text" th:field="*{phoneNumber}" class="form-control"
+                   th:placeholder="${department.phoneNumber}"
+                   th:class="${#fields.hasErrors('phoneNumber')}? 'form-control fieldError' : 'form-control'">
+            <p th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}">잘못된 전화번호</p>
+        </div>
+        <p th:if="${isAlreadyExistName}" class="text-danger">이미 존재하는 부서명입니다</p>
+        <p th:if="${isAlreadyExistPhoneNumber}" class="text-danger">이미 사용중인 전화번호입니다</p>
+        <br>
+        <button type="submit" class="btn btn-primary">변경</button>
+    </form>
+    <br>
+    <a href="/admin/edit/department/information" class="btn btn-primary" style="float: right;">돌아가기</a>
+    <div th:replace="fragments/footer :: footer"/>
+</div> <!-- /container -->
+</body>
+</html>
