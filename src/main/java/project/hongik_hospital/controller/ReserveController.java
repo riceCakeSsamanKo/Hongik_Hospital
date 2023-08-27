@@ -142,10 +142,6 @@ public class ReserveController {
     public String manageReserve(@ModelAttribute("form") ReserveForm form, Model model) {
 
         List<Reserve> reserves = reserveService.findReserves();
-        for (Reserve reserve : reserves) {
-            System.out.println("reserve.getReserveStatus() = " + reserve.getReserveStatus());
-        }
-
         List<ReserveDto> reserveDtos = new ArrayList<>();
 
         //reserves에서 form에서 넘어온 status와 같은 reserve만 가져와 dto로 넘김

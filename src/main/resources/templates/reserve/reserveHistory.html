@@ -27,7 +27,7 @@
             <tr>
                 <th>회원명</th>
                 <th>진료과</th>
-                <th th:if="${reserveForm.status == 'RESERVE'}">
+                <th>
                     담당 의사명
                 </th>
                 <th>예약일</th>
@@ -40,7 +40,7 @@
             <tr th:each="reserve : ${reserves}">
                 <td th:text="${reserve.user.name}"></td>
                 <td th:text="${reserve.department?.name}"></td>
-                <td th:if="${reserve.reserveStatus.name() == 'RESERVE'}" th:text="${reserve.doctor?.name}"></td>
+                <td th:text="${reserve.doctor?.name}"></td>
                 <td th:text="${reserve.reserveDate}"></td>
                 <td th:text="${reserve.treatmentDate}"></td>
                 <td th:text="${reserve.reserveStatus}"></td>

@@ -49,8 +49,8 @@ public class ReserveService {
         TreatmentDate treatmentDate = reserve.getTreatmentDate();
         Doctor doctor = reserve.getDoctor();
 
-        // doctor와 reserve간 연관관계 해제
-        reserve.setDoctor(null);
+        // doctor와 reserve간 연관관계 해제, 생김새만 똑같은 객체 new로 넣어줌(표시 용도)
+        reserve.setDoctor(new Doctor(doctor.getName(), doctor.getCareer()));
         // doctor와 treatment간 연관관계 해제
         treatmentDate.setDoctor(null);
 
@@ -67,8 +67,8 @@ public class ReserveService {
         TreatmentDate treatmentDate = reserve.getTreatmentDate();
         Doctor doctor = reserve.getDoctor();
 
-        // doctor와 reserve간 연관관계 해제
-        reserve.setDoctor(null);
+        // doctor와 reserve간 연관관계 해제, 생김새만 똑같은 객체 new로 넣어줌(표시 용도)
+        reserve.setDoctor(new Doctor(doctor.getName(), doctor.getCareer()));
         // doctor와 treatment간 연관관계 해제
         treatmentDate.setDoctor(null);
 

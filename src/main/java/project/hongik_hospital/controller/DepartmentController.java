@@ -103,7 +103,8 @@ public class DepartmentController {
         List<Reserve> reserves = reserveService.findReservesByDepartment(department);
         for (Reserve reserve : reserves) {
             if (reserve.getDepartment().getId().compareTo(department.getId()) == 0) {
-                reserveService.updateDepartment(reserve.getId(), null); /** 더티체킹을 통한 업데이트 */
+                //department가 제거되었더라도 reserve의 예약 내역 상에는 department가 남아있음.(하지만 new로 생성한 생김새만 같은 다른 객체. 단순 표시를 위해서 new로 객체 생성해줌)
+                reserveService.updateDepartment(reserve.getId(), new Department(department.getName(),department.getPhoneNumber())); /** 더티체킹을 통한 업데이트 */
             }
         }
 
