@@ -17,4 +17,5 @@ public class ReserveForm {
     private int hour;
     private int minute;
     private ReserveStatus status;
+    private int fee;
 }

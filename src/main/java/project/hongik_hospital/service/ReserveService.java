@@ -40,8 +40,8 @@ public class ReserveService {
         return reserveRepository.findByStatus(reserveStatus);
     }
 
-    public List<Reserve> findReservesByDepartment(Long departmentId) {
-        return reserveRepository.findByDepartment(departmentId);
+    public List<Reserve> findReservesByDepartment(Department department) {
+        return reserveRepository.findByDepartment(department.getId());
     }
 
     public void cancel(Long reserveId) {
@@ -49,10 +49,13 @@ public class ReserveService {
         TreatmentDate treatmentDate = reserve.getTreatmentDate();
         Doctor doctor = reserve.getDoctor();
 
-        // doctor의 treatments 컬렉션에서 treatment 제거
-        doctor.cancelTreatment(treatmentDate);
+        // doctor와 reserve간 연관관계 해제
+        reserve.setDoctor(null);
         // doctor와 treatment간 연관관계 해제
         treatmentDate.setDoctor(null);
+
+        // doctor의 treatments 컬렉션에서 treatment 제거
+        doctor.cancelTreatment(treatmentDate);
         // treatmentDate를 다시 저장함으로써 doctor의 fk 제거를 DB에 반영
         treatmentDateRepository.save(treatmentDate);
 
@@ -60,7 +63,21 @@ public class ReserveService {
     }
 
     public void complete(Long reserveId, int fee) {
-        reserveRepository.findOne(reserveId).complete(fee);
+        Reserve reserve = reserveRepository.findOne(reserveId);
+        TreatmentDate treatmentDate = reserve.getTreatmentDate();
+        Doctor doctor = reserve.getDoctor();
+
+        // doctor와 reserve간 연관관계 해제
+        reserve.setDoctor(null);
+        // doctor와 treatment간 연관관계 해제
+        treatmentDate.setDoctor(null);
+
+        // doctor의 treatments 컬렉션에서 treatment 제거
+        doctor.cancelTreatment(treatmentDate);
+        // treatmentDate를 다시 저장함으로써 doctor의 fk 제거를 DB에 반영
+        treatmentDateRepository.save(treatmentDate);
+
+        reserve.complete(fee);
     }
 
     /** 업데이트 로직 **/

@@ -210,7 +210,7 @@ public class UserController {
 
         log.info("Change info: " + user.getLogIn().getLogin_id());
 
-        return "admin/editUserInfo";
+        return "admin/changeUserInfo";
     }
 
     @PostMapping("/admin/edit/user/{userId}")

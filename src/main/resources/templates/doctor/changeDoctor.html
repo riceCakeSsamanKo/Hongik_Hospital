@@ -8,35 +8,37 @@
 <div class="container">
     <div th:replace="fragments/bodyHeader :: bodyHeader"/>
     <div class="jumbotron">
-        <h1>Department Information</h1>
+        <h1>Doctor Information</h1>
         <br><br>
         <table class="table table-striped">
             <thead>
             <tr>
                 <th>이름</th>
-                <th>전화번호</th>
+                <th>경력</th>
                 <th>수정</th>
             </tr>
             </thead>
             <tbody>
-            <tr th:each="department : ${departments}">
+            <tr th:each="doctor : ${doctors}">
                 <td>
-                    <span th:text="${department.name}"></span>
+                    <span th:text="${doctor.name}"></span>
                     <!-- Display name if not in edit mode -->
                     <!-- Display input field if in edit mode -->
                 </td>
                 <td>
-                    <span th:text="${department.phoneNumber}"></span>
+                    <p>
+                        <span th:text="${doctor.career}"></span>년
+                    </p>
                 </td>
                 <td>
-                    <a th:href="@{'/admin'+ '/edit' + '/department/' +  ${department.id}}">Edit</a>
+                    <a th:href="@{'/admin'+ '/edit' + '/doctor/' +  ${doctor.id}}">Edit</a>
                 </td>
             </tr>
             </tbody>
         </table>
     </div>
     <br>
-    <a href="/admin/edit/department" class="btn btn-primary" style="float: right;">돌아가기</a>
+    <a href="/admin/edit/doctor" class="btn btn-primary" style="float: right;">돌아가기</a>
     <div th:replace="fragments/footer :: footer"/>
 </div>
 </body>

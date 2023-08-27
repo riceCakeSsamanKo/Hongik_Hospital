@@ -1,0 +1,55 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header">
+    <title>Admin</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+<div class="container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+    <div class="jumbotron">
+        <h1>Remove Doctor</h1>
+        <br><br>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>이름</th>
+                <th>경력</th>
+                <th>근무 부서</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="doctor : ${doctors}">
+                <td>
+                    <span th:text="${doctor.name}"></span>
+                </td>
+                <td>
+                    <div><span th:text="${doctor.career}"></span>년</div>
+                </td>
+                <td>
+                    <span th:text="${doctor.department?.name}"></span>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <form th:action="@{/admin/edit/doctor/delete}" th:object="${form}" method="post" id="reservationForm">
+            <input type="hidden" name="_method" value="delete"/>
+            <!-- method = get으로 설정되어 있으므로 반환된 데이터가 GetMapping으로 전달됨.-->
+            <div class="form-group">
+                <label for="doctor">제거할 의사</label>
+                <select class="form-control" id="doctor" th:field="*{doctorId}">
+                    <option th:each="doctor : ${doctors}" th:value="${doctor.id}"
+                            th:text="${doctor.name}"></option>
+                </select>
+            </div>
+            <br>
+            <button type="submit" class="btn btn-primary" id="reserveButton">삭제하기</button>
+        </form>
+    </div>
+    <br>
+    <a href="/admin/edit/doctor" class="btn btn-primary" style="float: right;">돌아가기</a>
+    <div th:replace="fragments/footer :: footer"/>
+</div>
+</body>
+</html>

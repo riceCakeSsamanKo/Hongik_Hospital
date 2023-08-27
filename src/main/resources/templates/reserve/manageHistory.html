@@ -4,10 +4,10 @@
 <body>
 <div class="container">
     <div th:replace="fragments/bodyHeader :: bodyHeader"/>
-    <div class="jumbotron"><h1>Reserve History</h1></div>
+    <div class="jumbotron"><h1>Manage Reserve History</h1></div>
     <div>
         <div>
-            <form th:object="${reserveForm}" class="form-inline">
+            <form th:object="${form}" class="form-inline">
                 <div class="form-group mx-sm-1 mb-2">
                     <h4>예약 상태</h4>
                     <select th:field="*{status}" class="form-control">
@@ -24,10 +24,10 @@
         <br>
         <table class="table table-striped">
             <thead>
-            <tr>
+            <tr >
                 <th>회원명</th>
                 <th>진료과</th>
-                <th th:if="${reserveForm.status == 'RESERVE'}">
+                <th th:if="${form.status == 'RESERVE'}">
                     담당 의사명
                 </th>
                 <th>예약일</th>
@@ -40,14 +40,16 @@
             <tr th:each="reserve : ${reserves}">
                 <td th:text="${reserve.user.name}"></td>
                 <td th:text="${reserve.department?.name}"></td>
-                <td th:if="${reserve.reserveStatus.name() == 'RESERVE'}" th:text="${reserve.doctor?.name}"></td>
+                <td th:if="${reserve.reserveStatus.name() == 'RESERVE'}"
+                    th:text="${reserve.doctor?.name}">
+                </td>
                 <td th:text="${reserve.reserveDate}"></td>
                 <td th:text="${reserve.treatmentDate}"></td>
                 <td th:text="${reserve.reserveStatus}"></td>
                 <td>
                     <a th:if="${reserve.reserveStatus.name() == 'RESERVE'}" href="#"
-                       th:href="'javascript:cancel('+${reserve.id}+')'"
-                       class="btn btn-danger">CANCEL</a>
+                       th:href="'javascript:complete('+${reserve.id}+')'"
+                       class="btn btn-danger">COMPLETE</a>
                 </td>
             </tr>
             </tbody>
@@ -57,12 +59,12 @@
 </div> <!-- /container -->
 </body>
 <script>  <!--자바 스크립트-->
-    function cancel(id) {
-        var form = document.createElement("form");
-        form.setAttribute("method", "post");
-        form.setAttribute("action", "/reserve/history/" + id + "/cancel");
-        document.body.appendChild(form);
-        form.submit();
-    }
+function complete(id) {
+    var form = document.createElement("form");
+    form.setAttribute("method", "post");
+    form.setAttribute("action", "/admin/manage/history/" + id);
+    document.body.appendChild(form);
+    form.submit();
+}
 </script>
 </html>

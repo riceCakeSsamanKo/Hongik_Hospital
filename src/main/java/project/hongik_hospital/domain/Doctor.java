@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static javax.persistence.CascadeType.ALL;
+import static javax.persistence.CascadeType.PERSIST;
 import static javax.persistence.FetchType.LAZY;
 import static lombok.AccessLevel.PROTECTED;
 
@@ -29,7 +30,7 @@ public class Doctor {
     @OneToMany(mappedBy = "doctor", cascade = ALL, orphanRemoval = true)
     private List<TreatmentDate> treatmentDates = new ArrayList<>();
 
-    @ManyToOne(fetch = LAZY, cascade = ALL)
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "department_id")
     private Department department;
 

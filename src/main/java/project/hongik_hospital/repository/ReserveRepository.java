@@ -24,19 +24,19 @@ public class ReserveRepository {
     }
 
     public List<Reserve> findAll() {
-        return em.createQuery("select r from Reserve r " +
+        return em.createQuery("select distinct r from Reserve r " +
                         "join fetch r.user p " +
-                        "join fetch r.doctor d " +
+                        "left join fetch r.doctor d " +
                         "join fetch r.department dp " +
                         "join fetch r.hospital h" ,Reserve.class)
                 .getResultList();
     }
 
     public List<Reserve> findByUserName(String userName) {
-        return em.createQuery("select r from Reserve r " +
+        return em.createQuery("select distinct r from Reserve r " +
                         "join fetch r.user p " +
-                        "join fetch r.doctor d " +
-                        "join fetch r.department dp " +
+                        "left join fetch r.doctor d " +
+                        "left join fetch r.department dp " +
                         "join fetch r.hospital h " +
                         "where r.user.name = :userName", Reserve.class)
                 .setParameter("userName", userName)
@@ -44,10 +44,10 @@ public class ReserveRepository {
     }
 
     public List<Reserve> findByStatus(ReserveStatus status) {
-        return em.createQuery("select r from Reserve r " +
+        return em.createQuery("select distinct r from Reserve r " +
                         "join fetch r.user p " +
-                        "join fetch r.doctor d " +
-                        "join fetch r.department dp " +
+                        "left join fetch r.doctor d " +
+                        "left join fetch r.department dp " +
                         "join fetch r.hospital h " +
                         "where r.reserveStatus = :status",Reserve.class)
                 .setParameter("status", status)
@@ -55,10 +55,10 @@ public class ReserveRepository {
     }
 
     public List<Reserve> findByDepartment(Long departmentId) {
-        return em.createQuery("select r from Reserve r " +
+        return em.createQuery("select distinct r from Reserve r " +
                         "join fetch r.user p " +
-                        "join fetch r.doctor d " +
-                        "join fetch r.department dp " +
+                        "left join fetch r.doctor d " +
+                        "left join fetch r.department dp " +
                         "join fetch r.hospital h " +
                         "where r.department.id = :departmentId",Reserve.class)
                 .setParameter("departmentId", departmentId)

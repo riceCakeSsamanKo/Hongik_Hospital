@@ -4,13 +4,13 @@
 <body>
 <div class="container">
     <div th:replace="fragments/bodyHeader :: bodyHeader"/>
-    <h1>예약 신청</h1>
+    <div class="jumbotron"><h1>Create Reserve</h1></div>
     <h4>진료과 선택</h4>
     <!--th:action="@{/reserve/department/doctor}에 의해서 전달된 데이터(departmentId)가 form으로 주입됨-->
     <form th:action="@{/reserve/department/doctor}" th:object="${form}" method="get" id="reservationForm">
         <!-- method = get으로 설정되어 있으므로 반환된 데이터가 GetMapping으로 전달됨.-->
         <div class="form-group">
-            <label for="department">부서:</label>
+            <label for="department">부서</label>
             <select class="form-control" id="department" th:field="*{departmentId}">
                 <option th:each="dept : ${hospital.departments}" th:value="${dept.id}" th:text="${dept.name}"></option>
             </select>

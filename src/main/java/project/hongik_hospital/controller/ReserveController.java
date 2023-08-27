@@ -54,18 +54,20 @@ public class ReserveController {
         return "reserve/selectDepartment";
     }
 
-    @PostMapping("reserve/department")
-    public String getReserveDepartment(ReserveForm form, Model model) {
-        Long departmentId = form.getDepartmentId();
-        Department department = departmentRepository.findOne(departmentId);
-
-        log.info("POST: select department");
-        return "reserve/createReserveForm";
-    }
+//    @PostMapping("reserve/department")
+//    public String getReserveDepartment(ReserveForm form, Model model) {
+//
+//        Long departmentId = form.getDepartmentId();
+//        Department department = departmentRepository.findOne(departmentId);
+//
+//        log.info("POST: select department");
+//        return "reserve/createReserveForm";
+//    }
 
     @GetMapping("reserve/department/doctor")
     //th:action="@{/reserve/department/doctor}에 의해서 전달된 데이터(departmentId)가 form으로 주입됨
     public String selectReserveDoctor(@ModelAttribute("form") ReserveForm form, Model model) {
+
         Department department = departmentRepository.findOne(form.getDepartmentId());
         List<Doctor> doctors = department.getDoctors();
 
@@ -78,6 +80,7 @@ public class ReserveController {
 
     @PostMapping("reserve/department/doctor")
     public String getReserveDoctor(ReserveForm form, BindingResult result, Model model, HttpSession session) {
+
         User loggedInUser = (User) session.getAttribute("loggedInUser");
         User user = userService.findUser(loggedInUser.getId());
 
@@ -101,7 +104,8 @@ public class ReserveController {
     }
 
     @GetMapping("/reserve/history")
-    public String getReserveHistory(@ModelAttribute("form") ReserveForm form, Model model, HttpSession session) {
+    public String getReserveHistory(@ModelAttribute("reserveForm") ReserveForm form, Model model, HttpSession session) {
+
         User loggedInUser = (User) session.getAttribute("loggedInUser");
         if (loggedInUser == null) {
             model.addAttribute("form", new UserForm());
@@ -129,7 +133,38 @@ public class ReserveController {
 
     @PostMapping("/reserve/history/{reserveId}/cancel")
     public String cancelReserve(@PathVariable("reserveId") Long reserveId) {
+
         reserveService.cancel(reserveId);
         return "redirect:/reserve/history";
+    }
+
+    @GetMapping("/admin/manage/history")
+    public String manageReserve(@ModelAttribute("form") ReserveForm form, Model model) {
+
+        List<Reserve> reserves = reserveService.findReserves();
+        for (Reserve reserve : reserves) {
+            System.out.println("reserve.getReserveStatus() = " + reserve.getReserveStatus());
+        }
+
+        List<ReserveDto> reserveDtos = new ArrayList<>();
+
+        //reserves에서 form에서 넘어온 status와 같은 reserve만 가져와 dto로 넘김
+        for (Reserve reserve : reserves) {
+            if (reserve.getReserveStatus() == form.getStatus()) {
+                reserveDtos.add(new ReserveDto(reserve));
+            }
+        }
+
+        model.addAttribute("reserves", reserveDtos);
+
+        return "reserve/manageHistory";
+    }
+
+    @PostMapping("/admin/manage/history/{reserveId}")
+    public String manageReserveComplete(@PathVariable("reserveId") Long reserveId, ReserveForm form) {
+
+        reserveService.complete(reserveId, form.getFee());
+
+        return "redirect:/admin/manage/history";
     }
 }

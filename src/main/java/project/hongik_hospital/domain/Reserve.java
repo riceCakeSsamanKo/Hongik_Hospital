@@ -29,19 +29,19 @@ public class Reserve {
     @Column(name = "reserve_id")
     private Long id;
 
-    @ManyToOne(fetch = LAZY, cascade = ALL)
+    @ManyToOne(fetch = LAZY, cascade = PERSIST)
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToOne(fetch = LAZY, cascade = ALL)
+    @ManyToOne(fetch = LAZY, cascade = PERSIST)
     @JoinColumn(name = "doctor_id")
     private Doctor doctor;
 
-    @ManyToOne(fetch = LAZY, cascade = ALL)
+    @ManyToOne(fetch = LAZY, cascade = PERSIST)
     @JoinColumn(name = "department_id")
     private Department department;
 
-    @ManyToOne(fetch = LAZY, cascade = ALL)
+    @ManyToOne(fetch = LAZY, cascade = PERSIST)
     @JoinColumn(name = "hospital_id")
     private Hospital hospital;
 
@@ -125,9 +125,11 @@ public class Reserve {
     }
 
     public void complete(int fee) {
+        if (reserveStatus == CANCEL) {
+            throw new IllegalStateException("이미 취소된 진료는 완료가 불가합니다.");
+        }
         setReserveStatus(COMPLETE);
         setFee(fee);
-        doctor.cancelTreatment(treatmentDate);
     }
 
     @Override

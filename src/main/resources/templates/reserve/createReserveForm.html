@@ -4,7 +4,7 @@
 <body>
 <div class="container">
     <div th:replace="fragments/bodyHeader :: bodyHeader"/>
-    <h1>예약 신청</h1>
+    <div class="jumbotron"><h1>Create Reserve</h1></div>
     <!--/reserve/department/doctor의 PostMapping에 form 데이터가 전달됨-->
     <form th:action="@{/reserve/department/doctor}" th:object="${form}" method="post">
 

@@ -93,14 +93,14 @@ public class DepartmentController {
         Department department = departmentService.findDepartment(form.getDepartmentId());
 
         // DOCTOR와 RESERVE 연관관계 해제
-        List<Doctor> doctors = doctorService.findDoctors();
+        List<Doctor> doctors = doctorService.findDoctorsByDepartment(department);
         for (Doctor doctor : doctors) {
             if (doctor.getDepartment().getId().compareTo(department.getId()) == 0) {
                 doctorService.updateDepartment(doctor.getId(), null);  /** 더티체킹을 통한 업데이트 */
             }
         }
 
-        List<Reserve> reserves = reserveService.findReserves();
+        List<Reserve> reserves = reserveService.findReservesByDepartment(department);
         for (Reserve reserve : reserves) {
             if (reserve.getDepartment().getId().compareTo(department.getId()) == 0) {
                 reserveService.updateDepartment(reserve.getId(), null); /** 더티체킹을 통한 업데이트 */

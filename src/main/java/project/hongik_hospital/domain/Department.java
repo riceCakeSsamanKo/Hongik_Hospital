@@ -25,7 +25,7 @@ public class Department {
     private String name;
     private String phoneNumber;
 
-    @OneToMany(mappedBy = "department",cascade = ALL)
+    @OneToMany(mappedBy = "department", cascade = PERSIST)
     private List<Doctor> doctors = new ArrayList<>();
 
     @ManyToOne(fetch = LAZY)
