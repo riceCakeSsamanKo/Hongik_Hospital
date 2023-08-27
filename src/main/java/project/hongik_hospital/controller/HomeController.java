@@ -32,7 +32,7 @@ public class HomeController {
         return "home";
     }
 
-    @GetMapping("/admin/home")
+    @GetMapping("/admin")
     public String adminHome(HttpSession session, Model model) {
         // 로그인한 회원 조회
         User loggedInUser = (User) session.getAttribute("loggedInUser");

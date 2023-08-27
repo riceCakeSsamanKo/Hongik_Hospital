@@ -16,8 +16,11 @@
             </select>
         </div>
         <p th:if="${isAlreadyReserved}" class="text-danger">해당 시간은 이미 예약이 완료 되었습니다.</p>
+        <br>
         <button type="submit" class="btn btn-primary" id="reserveButton">예약 신청</button>
     </form>
+    <a href="/" class="btn btn-primary" style="float: right;">돌아가기</a>
+    <div th:replace="fragments/footer :: footer"/>
 </div>
 </body>
 </html>

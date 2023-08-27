@@ -89,7 +89,7 @@ public class UserController {
 
         if (user.getAccountType() == ADMIN) {
             // 운영자 전용 페이지로 이동
-            return "redirect:/admin/home";
+            return "redirect:/admin";
         }
 
         log.info("Logged in: " + user.getName());
