@@ -26,7 +26,7 @@
             </div>
             <div class="form-group">
                 <label for="name">Name</label>
-                <input type="text" class="form-control" id="name" th:field="*{name}" placeholder="이름을 입력하세요"
+                <input type="text" class="form-control" id="name" th:field="*{name}" th:placeholder="${user.name}"
                        th:value="${user.name}"/>
                 <small class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name은 필수
                     입력값입니다</small>
@@ -34,7 +34,7 @@
             </div>
             <div class="form-group">
                 <label for="age">Age</label>
-                <input type="number" class="form-control" id="age" placeholder="나이를 입력하세요" th:field="*{age}"/>
+                <input type="number" class="form-control" id="age" th:placeholder="${user.age}" th:field="*{age}"/>
                 <small class="text-danger" th:if="${#fields.hasErrors('age')}" th:errors="*{age}">Age는 필수 입력값입니다</small>
                 <br>
             </div>
