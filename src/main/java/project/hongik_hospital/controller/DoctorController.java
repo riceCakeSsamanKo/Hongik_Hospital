@@ -7,7 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import project.hongik_hospital.domain.Department;
 import project.hongik_hospital.domain.Doctor;
-import project.hongik_hospital.domain.Reserve;
+import project.hongik_hospital.domain.reserve.Reserve;
 import project.hongik_hospital.domain.TreatmentDate;
 import project.hongik_hospital.form.DoctorForm;
 import project.hongik_hospital.repository.TreatmentDateRepository;

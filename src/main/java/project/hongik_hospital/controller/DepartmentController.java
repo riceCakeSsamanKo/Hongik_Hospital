@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import project.hongik_hospital.domain.Department;
 import project.hongik_hospital.domain.Doctor;
 import project.hongik_hospital.domain.Hospital;
-import project.hongik_hospital.domain.Reserve;
+import project.hongik_hospital.domain.reserve.Reserve;
 import project.hongik_hospital.form.DepartmentForm;
 
 import project.hongik_hospital.service.DepartmentService;

@@ -1,18 +1,13 @@
-package project.hongik_hospital.domain;
+package project.hongik_hospital.domain.reserve;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import org.springframework.beans.factory.annotation.Autowired;
-import project.hongik_hospital.repository.TreatmentDateRepository;
+import project.hongik_hospital.domain.*;
+import project.hongik_hospital.form.DoctorForm;
 
 import javax.persistence.*;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 import static javax.persistence.CascadeType.*;
 import static javax.persistence.EnumType.*;
@@ -83,13 +78,23 @@ public class Reserve {
         reserve.setReserveDate(reserveDate);
         reserve.setReserveStatus(RESERVE);
         reserve.setFee(0);
+//        reserve.setDoctorData(doctor);
 
         // fee는 reserveStatus가 COMPLETE인 경우에 책정 하기로 함 ㅇㅇ.
         return reserve;
     }
 
-    // setter
 
+    // Doctor의 정보만 가짐. Entity 아님.(Reserve의 상태 변경시, 새로운 Doctor가 생성되는 것 방지)
+    // 추후 구현 할 것(2023-08-31)
+//    @Embedded
+//    private DoctorData doctorData;
+//
+//    public void setDoctorData(Doctor doctor) {
+//        this.doctorData = new DoctorData(doctor);
+//    }
+
+    // setter
     public void setDoctor(Doctor doctor) {
         this.doctor = doctor;
     }

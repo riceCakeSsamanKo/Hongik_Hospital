@@ -1,20 +1,18 @@
 package project.hongik_hospital.domain;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 import org.junit.jupiter.api.Test;
+import project.hongik_hospital.domain.reserve.Reserve;
 
 import javax.persistence.EntityManager;
 
 import static java.time.LocalDateTime.now;
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
-import static project.hongik_hospital.domain.GenderType.FEMALE;
 import static project.hongik_hospital.domain.GenderType.MALE;
 
 @SpringBootTest
@@ -47,7 +45,7 @@ class ReserveTest {
         Hospital hospital = new Hospital("참조은병원", hospitalAddress1, department1);
 
         //then
-        assertThrows(IllegalStateException.class, ()->Reserve.createReserve(user1, doctor1, now(), treatmentDate1));
+        assertThrows(IllegalStateException.class, ()-> Reserve.createReserve(user1, doctor1, now(), treatmentDate1));
     }
 
     @Test

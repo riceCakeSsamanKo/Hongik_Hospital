@@ -1,6 +1,7 @@
 package project.hongik_hospital.domain;
 
 import lombok.Data;
+import project.hongik_hospital.domain.reserve.Reserve;
 
 import java.time.LocalDateTime;
 

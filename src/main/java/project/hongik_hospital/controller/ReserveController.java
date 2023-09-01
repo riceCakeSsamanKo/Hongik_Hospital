@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import project.hongik_hospital.domain.*;
+import project.hongik_hospital.domain.reserve.Reserve;
 import project.hongik_hospital.form.UserForm;
 import project.hongik_hospital.form.ReserveForm;
 import project.hongik_hospital.repository.DepartmentRepository;

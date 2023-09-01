@@ -1,14 +1,13 @@
 package project.hongik_hospital.service;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import project.hongik_hospital.domain.*;
+import project.hongik_hospital.domain.reserve.Reserve;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 import static java.time.LocalDateTime.*;
