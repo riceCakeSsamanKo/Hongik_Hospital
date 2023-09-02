@@ -36,9 +36,9 @@
             </thead>
             <tbody>
             <tr th:each="reserve : ${reserves}">
-                <td th:text="${reserve.user.name}"></td>
-                <td th:text="${reserve.department?.name}"></td>
-                <td th:text="${reserve.doctor?.name}"></td>
+                <td th:text="${reserve.userName}"></td>
+                <td th:text="${reserve.departmentName}"></td>
+                <td th:text="${reserve.doctorName}"></td>
                 <td th:text="${reserve.reserveDate}"></td>
                 <td th:text="${reserve.treatmentDate}"></td>
                 <td th:text="${reserve.reserveStatus}"></td>

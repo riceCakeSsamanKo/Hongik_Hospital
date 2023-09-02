@@ -1,7 +1,7 @@
 package project.hongik_hospital.repository;
 
 import org.springframework.stereotype.Repository;
-import project.hongik_hospital.domain.reserve.Reserve;
+import project.hongik_hospital.domain.Reserve;
 import project.hongik_hospital.domain.ReserveStatus;
 
 import javax.persistence.EntityManager;

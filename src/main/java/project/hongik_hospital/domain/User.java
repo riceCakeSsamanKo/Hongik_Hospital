@@ -1,7 +1,6 @@
 package project.hongik_hospital.domain;
 
 import lombok.*;
-import project.hongik_hospital.domain.reserve.Reserve;
 
 import javax.persistence.*;
 

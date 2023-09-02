@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import project.hongik_hospital.domain.*;
-import project.hongik_hospital.domain.reserve.Reserve;
+import project.hongik_hospital.domain.Reserve;
 
 import java.util.List;
 

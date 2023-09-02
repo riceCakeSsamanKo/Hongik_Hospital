@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import project.hongik_hospital.domain.*;
-import project.hongik_hospital.domain.reserve.Reserve;
+import project.hongik_hospital.domain.Reserve;
 import project.hongik_hospital.form.UserForm;
 import project.hongik_hospital.form.ReserveForm;
 import project.hongik_hospital.repository.DepartmentRepository;
@@ -23,6 +23,8 @@ import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
+import static project.hongik_hospital.domain.ReserveStatus.*;
 
 @Controller
 @Slf4j
@@ -104,6 +106,9 @@ public class ReserveController {
         return "redirect:/";
     }
 
+    // 모든 reserve 정보가 여기에 저장됨
+    List<ReserveDto> totalReserveDtos = new ArrayList<>();
+
     @GetMapping("/reserve/history")
     public String getReserveHistory(@ModelAttribute("reserveForm") ReserveForm form, Model model, HttpSession session) {
 
@@ -113,15 +118,42 @@ public class ReserveController {
             model.addAttribute("needToSignIn", true);
             return "loginForm";
         }
-        User user = userService.findUser(loggedInUser.getId());
 
-        List<ReserveDto> reserveDtos = new ArrayList<>();
+        User user = userService.findUser(loggedInUser.getId());
         List<Reserve> reserves = user.getReserves();
+        List<ReserveDto> reserveDtos = new ArrayList<>();
 
         //reserves에서 form에서 넘어온 status와 같은 reserve만 가져와 dto로 넘김
         for (Reserve reserve : reserves) {
+            ReserveDto newReserveDto = new ReserveDto(reserve);
+
+            // 특정 status의 reserve를 조회
             if (reserve.getReserveStatus() == form.getStatus()) {
-                reserveDtos.add(new ReserveDto(reserve));
+                boolean isAlreadySaved = false;
+                for (ReserveDto totalReserveDto : totalReserveDtos) {
+                    //이미 totalReserveDtos에 저장되어 있는 상태
+                    if (totalReserveDto.getId().compareTo(reserve.getId()) == 0) {
+                        isAlreadySaved = true;
+                        break;
+                    }
+                }
+                // totalReserveDtos에 저장되지 않았다면(처음 생성한 예약) totalReserveDtos에 저장함
+                if (!isAlreadySaved) {
+                    totalReserveDtos.add(newReserveDto);
+                }
+
+                if (reserve.getDoctor() == null) {
+                    // 만일 doctor 데이터가 없다면 기존 저장된 전체 ReserveDto 데이터에서
+                    // 해당 reserve의 id와 동일한 ReserveDto 객체의 doctor 데이터를 가져와서 주입해줌
+                    for (ReserveDto totalReserveDto : totalReserveDtos) {
+                        if (totalReserveDto.getId().compareTo(reserve.getId()) == 0) {
+                            // Doctor 정보 주입
+                            newReserveDto.setDoctorName(totalReserveDto.getDoctorName());
+                        }
+                    }
+                }
+
+                reserveDtos.add(newReserveDto);
             }
         }
 
@@ -141,14 +173,40 @@ public class ReserveController {
 
     @GetMapping("/admin/manage/history")
     public String manageReserve(@ModelAttribute("form") ReserveForm form, Model model) {
-
         List<Reserve> reserves = reserveService.findReserves();
         List<ReserveDto> reserveDtos = new ArrayList<>();
 
         //reserves에서 form에서 넘어온 status와 같은 reserve만 가져와 dto로 넘김
         for (Reserve reserve : reserves) {
+            ReserveDto newReserveDto = new ReserveDto(reserve);
+
+            // 특정 status의 reserve를 조회
             if (reserve.getReserveStatus() == form.getStatus()) {
-                reserveDtos.add(new ReserveDto(reserve));
+                boolean isAlreadySaved = false;
+                for (ReserveDto totalReserveDto : totalReserveDtos) {
+                    //이미 totalReserveDtos에 저장되어 있는 상태
+                    if (totalReserveDto.getId().compareTo(reserve.getId()) == 0) {
+                        isAlreadySaved = true;
+                        break;
+                    }
+                }
+                // totalReserveDtos에 저장되지 않았다면(처음 생성한 예약) totalReserveDtos에 저장함
+                if (!isAlreadySaved) {
+                    totalReserveDtos.add(newReserveDto);
+                }
+
+                if (reserve.getDoctor() == null) {
+                    // 만일 doctor 데이터가 없다면 기존 저장된 전체 ReserveDto 데이터에서
+                    // 해당 reserve의 id와 동일한 ReserveDto 객체의 doctor 데이터를 가져와서 주입해줌
+                    for (ReserveDto totalReserveDto : totalReserveDtos) {
+                        if (totalReserveDto.getId().compareTo(reserve.getId()) == 0) {
+                            // Doctor 정보 주입
+                            newReserveDto.setDoctorName(totalReserveDto.getDoctorName());
+                        }
+                    }
+                }
+
+                reserveDtos.add(newReserveDto);
             }
         }
 
@@ -161,7 +219,6 @@ public class ReserveController {
     public String manageReserveComplete(@PathVariable("reserveId") Long reserveId, ReserveForm form) {
 
         reserveService.complete(reserveId, form.getFee());
-
         return "redirect:/admin/manage/history";
     }
 }

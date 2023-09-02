@@ -4,8 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import project.hongik_hospital.domain.*;
-import project.hongik_hospital.domain.reserve.Reserve;
-import project.hongik_hospital.form.DoctorForm;
+import project.hongik_hospital.domain.Reserve;
 import project.hongik_hospital.repository.ReserveRepository;
 import project.hongik_hospital.repository.TreatmentDateRepository;
 
@@ -50,11 +49,8 @@ public class ReserveService {
         TreatmentDate treatmentDate = reserve.getTreatmentDate();
         Doctor doctor = reserve.getDoctor();
 
-        // doctor와 reserve간 연관관계 해제, 생김새만 똑같은 객체 new로 넣어줌(표시 용도)
-        reserve.setDoctor(new Doctor(doctor.getName(), doctor.getCareer()));
-
-        // 추후 구현할 것(2023-08-31)
-//        reserve.setDoctorForm(new DoctorForm(doctor.getName(), doctor.getCareer(),doctor.getDepartment().getId()))
+        // doctor와 reserve간 연관관계 해제
+        reserve.setDoctor(null);
         // doctor와 treatment간 연관관계 해제
         treatmentDate.setDoctor(null);
 
@@ -71,8 +67,8 @@ public class ReserveService {
         TreatmentDate treatmentDate = reserve.getTreatmentDate();
         Doctor doctor = reserve.getDoctor();
 
-        // doctor와 reserve간 연관관계 해제, 생김새만 똑같은 객체 new로 넣어줌(표시 용도)
-        reserve.setDoctor(new Doctor(doctor.getName(), doctor.getCareer()));
+        // doctor와 reserve간 연관관계 해제
+        reserve.setDoctor(null);
         // doctor와 treatment간 연관관계 해제
         treatmentDate.setDoctor(null);
 
