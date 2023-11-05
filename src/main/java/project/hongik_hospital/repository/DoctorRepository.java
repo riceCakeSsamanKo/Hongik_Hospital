@@ -21,7 +21,7 @@ public class DoctorRepository {
     }
 
     // Doctor의 경우에만 left join fetch를 사용한 이유
-    // =>
+    // => department가 없는 doctor의 경우에도 조회를 하기 위해서
     public List<Doctor> findAll() {
         return em.createQuery("select d from Doctor d " +
                         "left join fetch d.department dp",Doctor.class)

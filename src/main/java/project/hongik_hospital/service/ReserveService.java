@@ -14,7 +14,7 @@ import java.util.List;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class ReserveService {
+public class   ReserveService {
 
     private final ReserveRepository reserveRepository;
     private final TreatmentDateRepository treatmentDateRepository;

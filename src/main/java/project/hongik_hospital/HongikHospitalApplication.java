@@ -16,8 +16,8 @@ public class HongikHospitalApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(HongikHospitalApplication.class, args);
 	}
-	@Bean
-	public HiddenHttpMethodFilter hiddenHttpMethodFilter() {
-		return new HiddenHttpMethodFilter();
-	}	
+    @Bean
+    public HiddenHttpMethodFilter hiddenHttpMethodFilter() {
+        return new HiddenHttpMethodFilter();
+    }
 }
