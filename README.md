@@ -1,5 +1,5 @@
-# hongik_hospital
-홍익병원 예제
+# Hongik_Hospital
+홍익병원 예약 프로젝트
 ![설계구조도](https://github.com/riceCakeSsamanKo/hongik_hospital/assets/121627245/1e79bf3d-015c-4384-b343-992c53543bb0)
 
 ER 다이어그램
